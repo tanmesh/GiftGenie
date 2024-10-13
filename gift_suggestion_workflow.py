@@ -49,6 +49,64 @@ class GiftSuggestionWorkflow(Workflow):
         self.price_ceiling = price_ceiling
         self.log_print = log_print_func
 
+    @staticmethod
+    def extract_amazon_product_links(keyword: str):
+        from apify_client import ApifyClient
+        import os
+        from dotenv import load_dotenv
+        import urllib.parse
+
+        # Initialize the ApifyClient with your API token
+        load_dotenv()
+
+        api_token = os.getenv("APIFY_API_TOKEN")
+        client = ApifyClient(api_token)
+
+        keyword = urllib.parse.quote(keyword, safe="")
+        # Prepare the Actor input
+        run_input = {
+            "categoryOrProductUrls": [{"url": f"https://www.amazon.com/s?k={keyword}"}],
+            "maxItemsPerStartUrl": 1,
+            "proxyCountry": "AUTO_SELECT_PROXY_COUNTRY",
+            "maxOffers": 0,
+            "scrapeSellers": False,
+            "useCaptchaSolver": False,
+            "scrapeProductVariantPrices": False,
+        }
+
+        print(f"Running Actor with input: {run_input}")
+
+        try:
+            # Run the Actor and wait for it to finish
+            run = client.actor("BG3WDrGdteHgZgbPK").call(run_input=run_input)
+
+            # Fetch Actor results from the run's dataset
+            data = client.dataset(run["defaultDatasetId"]).list_items().items
+            for item in data:
+                print(f'Item: {item}')
+
+            return data
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            traceback.print_exc()
+            return []
+
+    @step(pass_context=True)
+    async def amazon_product_link_generator(self, ctx: Context, ev: Event) -> Event:
+        print(f"Generating product links for keyword")
+        print(f'Ev: {ev}')
+        product_link = []
+        link = self.extract_amazon_product_links(ev)
+        product_link.extend(link)
+        
+        print("\n--- Amazon Product Links ---")
+        print(product_link)
+        print("----------------------------\n")
+
+        product_link = product_link[0]
+        print(f"Product link: {product_link}")
+        return Event(product_links=product_link['url'], product_image=product_link['thumbnailImage'], product_title=product_link['title'], product_price=product_link['price']['value'], product_rating=product_link['stars'])
+        
     @step(pass_context=True)
     async def initialize(self, ctx: Context, ev: StartEvent) -> TweetAnalyzerEvent:
         self.log_print("Step: Get Tweets and Compile Text")

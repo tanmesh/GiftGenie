@@ -1,3 +1,4 @@
+import ast
 import os
 import sys
 import traceback
@@ -69,7 +70,53 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
 
     with st.spinner("Generating Amazon search keywords..."):
         keywords_event = await workflow.amazon_keyword_generator(ctx, AmazonKeywordGeneratorEvent(gift_ideas=final_gifts_event.gift_ideas))
-        return keywords_event
+        # Extract the content from the AgentChatResponse
+        keywords_list = ast.literal_eval(keywords_event.response.strip())
+        if not isinstance(keywords_list, list):
+            keywords_list = [keywords_event.response.strip()]
+        keywords_list = [keyword.strip() for keyword in keywords_list if keyword.strip()]
+
+        print("\n--- Amazon Search Keywords ---")
+        print(keywords_list)
+        print("----------------------------\n")
+
+        # Ensure we have at least one keyword
+        if not keywords_list:
+            st.error("Failed to generate valid keywords. Please try again.")
+            keywords_list = ["Gift under $40"]  # Fallback keyword
+
+        # Display the generated Amazon keywords
+        st.subheader("Amazon Search Keywords")
+        if isinstance(keywords_list, str):
+            keywords = keywords_list.split(',')
+        else:
+            keywords = keywords_list
+        for keyword in keywords:
+            st.write(f"- {keyword.strip()}")
+    
+    with st.spinner("Generating Amazon product links..."):
+        product_links = []
+        for keyword in keywords:
+            print(f"Generating product links for keyword: {keyword}")
+            product_links_event = await workflow.amazon_product_link_generator(ctx, keyword)
+            print(f"Product links event: {product_links_event}")
+            product_links.append(product_links_event)
+        
+        print("\n--- Amazon Product Links ---")
+        print(product_links)
+        print("----------------------------\n")
+
+        st.subheader("Amazon Product Links")
+        for product_link in product_links:
+            with st.container():
+                col1, col2 = st.columns([1, 3])
+                with col1:
+                    st.image(product_link.product_image, width=100)
+                with col2:
+                    st.write(f"**{product_link.product_title[:50]}...**")
+                    st.write(f"${product_link.product_price:.2f} | {'⭐' * int(product_link.product_rating)}")
+                    st.markdown(f"[View]({product_link.product_links})")
+            st.markdown("---")
 
 def main():
     price_ceiling = st.sidebar.number_input("Set Price Ceiling ($)", min_value=1, max_value=1000, value=30)
