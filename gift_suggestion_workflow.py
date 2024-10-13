@@ -1,5 +1,6 @@
 import os
 import asyncio
+import streamlit as st
 from datetime import datetime
 from dotenv import load_dotenv
 from typing import List
@@ -325,54 +326,54 @@ class GiftSuggestionWorkflow(Workflow):
         return AmazonKeywordGeneratorEvent(gift_ideas=gift_list)
 
     @step(pass_context=True)
-    async def amazon_keyword_generator(self, ctx: Context, ev: AmazonKeywordGeneratorEvent) -> AmazonKeywordGeneratorEvent:
-        print("Step: Amazon Keyword Generator")
+    async def amazon_keyword_generator(self, ctx: Context, ev: AmazonKeywordGeneratorEvent) -> StopEvent:
         if "amazon_keyword_generator_agent" not in ctx.data:
+
             def generate_keywords(gift_ideas: List[str]) -> List[str]:
                 prompt = f"""Based on the following gift ideas, generate Amazon search keywords. 
                 Each keyword should be a short phrase suitable for searching on Amazon, 
-                and should include "under ${self.price_ceiling}" as the price qualifier.
+                and should include "under $40" or a similar price qualifier.
 
                 Gift ideas:
                 {', '.join(gift_ideas)}
 
-                Provide exactly 3 search keywords in the format of a Python list of strings. 
-                For example: ["smart home devices under ${self.price_ceiling}", "cleaning gadgets under ${self.price_ceiling}", "kitchen tools under ${self.price_ceiling}"]
-
-                Your response:"""
-                
+                Provide a Python list of 3 search keywords:"""
                 response = ctx.data["llm"].complete(prompt)
-                return response
+                return eval(str(response).strip())
 
-            system_prompt = f"""
+            system_prompt = """
                 You are an AI assistant that generates Amazon search keywords based on gift ideas.
-                Your task is to provide a list of exactly 3 search keywords suitable for Amazon, including the price qualifier "under ${self.price_ceiling}".
-                Always format your response as a valid Python list of strings.
-                For example: ["smart home devices under ${self.price_ceiling}", "cleaning gadgets under ${self.price_ceiling}", "kitchen tools under ${self.price_ceiling}"]
+                Your task is to provide a list of 3 search keywords suitable for Amazon, including a price qualifier.
             """
 
-            ctx.data["amazon_keyword_generator_agent"] = create_agent(ctx, [generate_keywords], system_prompt)
+            ctx.data["amazon_keyword_generator_agent"] = create_agent(
+                ctx, [generate_keywords], system_prompt
+            )
 
-        amazon_keywords_response = ctx.data["amazon_keyword_generator_agent"].chat(f"Generate keywords for these gift ideas: {ev.gift_ideas}")
+        amazon_keywords = ctx.data["amazon_keyword_generator_agent"].chat(
+            f"Generate keywords for these gift ideas: {ev.gift_ideas}"
+        )
+                
+        # Extract the content from the AgentChatResponse
+        response_text = amazon_keywords.response.strip()
         
-        # Process the AgentChatResponse to extract keywords
-        amazon_keywords_str = str(amazon_keywords_response).strip()
-        try:
-            amazon_keywords = ast.literal_eval(amazon_keywords_str)
-            if not isinstance(amazon_keywords, list):
-                raise ValueError("Response is not a list")
-        except:
-            # If parsing fails, attempt to extract keywords from the string
-            amazon_keywords = [kw.strip() for kw in amazon_keywords_str.strip('[]').split(',') if kw.strip()]
+        # Parse the keywords from the response text
+        keywords_list = []
+        for line in response_text.split('\n'):
+            if line.strip().startswith(('- ', '• ', '* ', '1. ', '2. ', '3. ', '4. ', '5. ', '6. ')):
+                keywords_list.append(line.strip().split(' ', 1)[1])
         
-        # Ensure we have exactly 3 keywords
-        amazon_keywords = amazon_keywords[:3]
-        while len(amazon_keywords) < 3:
-            amazon_keywords.append(f"gift under ${self.price_ceiling}")
+        # Ensure we have at least one keyword
+        if not keywords_list:
+            st.error("Failed to generate valid keywords. Please try again.")
+            keywords_list = ["Gift under $40"]  # Fallback keyword
+        
+        # # Display the generated Amazon keywords
+        # st.subheader("Amazon Search Keywords")
+        # for keyword in keywords_list:
+        #     st.write(f"- {keyword}")
 
-        print(f"Amazon Search Keywords: {amazon_keywords}")
-        self.log_print(f"Amazon Search Keywords: {str(amazon_keywords)}")
-        return AmazonKeywordGeneratorEvent(gift_ideas=ev.gift_ideas, amazon_keywords=amazon_keywords)
+        return AmazonKeywordGeneratorEvent(gift_ideas=ev.gift_ideas, amazon_keywords=keywords_list)
 
 def create_agent(ctx: Context, tools: List[callable], system_prompt: str):
     function_tools = [FunctionTool.from_defaults(fn=tool) for tool in tools]
