@@ -7,6 +7,9 @@ https://github.com/user-attachments/assets/e997ea94-efce-4fe0-84b7-6f2525ad997c
 
 GiftGenie is your AI-powered personal shopper that takes the stress out of gift-giving, providing thoughtful, personalized recommendations for any occasion.
 
+## Tools Used
+LlamaIndex workflows (Agent workflow), Toolhouse (Twitter Scraping), Apify (Amazon scraping)
+
 ## Inspiration
 GiftGenie was inspired by the common challenge of finding the perfect gift for friends and loved ones. We wanted to create a tool that could analyze a person's interests and preferences, then suggest thoughtful and personalized gift ideas within a specified budget.
 
