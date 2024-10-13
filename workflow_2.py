@@ -45,12 +45,14 @@ class AmazonKeywordGeneratorEvent(Event):
     gift_ideas: List[str]
 
 class GiftSuggestionWorkflow(Workflow):
-    def __init__(self, price_ceiling: float, *args, **kwargs):
+    def __init__(self, price_ceiling: float, log_print_func, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.price_ceiling = price_ceiling
+        self.log_print = log_print_func
 
     @step(pass_context=True)
     async def initialize(self, ctx: Context, ev: StartEvent) -> TweetAnalyzerEvent:
+        self.log_print("Step: Initialize")
         ctx.data["llm"] = OpenAI(model="gpt-4", temperature=0.4)
         tweets = [
             "Just finished a great workout at the gym!",
@@ -59,11 +61,13 @@ class GiftSuggestionWorkflow(Workflow):
             "Trying to eat healthier. Any good cookbook recommendations?",
             "Working on a new coding project. Python is so fun!"
         ]
+        self.log_print("Tweets initialized")
         print("Tweets initialized")
         return TweetAnalyzerEvent(tweets=tweets)
 
     @step(pass_context=True)
     async def tweet_analyzer(self, ctx: Context, ev: TweetAnalyzerEvent) -> InterestMapperEvent:
+        self.log_print("Step: Tweet Analyzer")
         if "tweet_analyzer_agent" not in ctx.data:
             def categorize_tweets(tweets: List[str]) -> str:
                 prompt = f"""Analyze the following tweets and categorize them into interest areas or activities. 
@@ -87,7 +91,11 @@ class GiftSuggestionWorkflow(Workflow):
         print("\n--- Interests identified ---")
         print(str(interests))
         print("--------------------\n")
-
+        try:
+            self.log_print(f"Interests identified: {str(interests)}")
+        except Exception as e:
+            self.log_print(f"Error in tweet_analyzer: {str(e)}")
+            traceback.print_exc(file=sys.stdout)
         return InterestMapperEvent(interests=str(interests))
 
     @step(pass_context=True)
@@ -133,6 +141,7 @@ class GiftSuggestionWorkflow(Workflow):
         print("\n--- Gift Categories ---")
         print(str(gift_categories))
         print("--------------------\n")
+        self.log_print(f"Gift Categories: {str(gift_categories)}")
         return GiftIdeaGeneratorEvent(gift_categories=str(gift_categories))
 
     @step(pass_context=True)
@@ -161,6 +170,7 @@ class GiftSuggestionWorkflow(Workflow):
         print("\n--- Gift Ideas ---")
         print(str(gift_ideas))
         print("--------------------\n")
+        self.log_print(f"Gift Ideas: {str(gift_ideas)}")
         return GiftDebaterEvent(gift_ideas=str(gift_ideas))
 
 
@@ -200,7 +210,7 @@ class GiftSuggestionWorkflow(Workflow):
         print("\n--- Gift Debates ---")
         print(str(debates))
         print("--------------------\n")
-
+        self.log_print(f"Gift Debates: {str(debates)}")
         return GiftReasonerEvent(debates=str(debates))
 
     @step(pass_context=True)
@@ -245,6 +255,7 @@ class GiftSuggestionWorkflow(Workflow):
 
         # Convert the AgentChatResponse to a list of strings
         gift_list = str(final_gifts).strip().split('\n')
+        self.log_print(f"Final Gift Selections: {str(final_gifts)}")
         return AmazonKeywordGeneratorEvent(gift_ideas=gift_list)
 
     @step(pass_context=True)
@@ -287,6 +298,7 @@ class GiftSuggestionWorkflow(Workflow):
 
         amazon_keywords = ctx.data["amazon_keyword_generator_agent"].chat(f"Generate keywords for these gift ideas: {ev.gift_ideas}")
         print(f"Amazon Search Keywords: {amazon_keywords}")
+        self.log_print(f"Amazon Search Keywords: {str(amazon_keywords)}")
         return StopEvent()
 
 def create_agent(ctx: Context, tools: List[callable], system_prompt: str):
@@ -299,7 +311,6 @@ def create_agent(ctx: Context, tools: List[callable], system_prompt: str):
     )
     return agent_worker.as_agent()
 
-
 async def main():
     price_ceiling = 30
 
@@ -310,20 +321,21 @@ async def main():
 
     def log_print(*args, **kwargs):
         message = " ".join(map(str, args))
-        print(message, **kwargs)
+        print(message, flush=True)  # Print to console immediately
         with open(log_path, "a") as log_file:
             log_file.write(message + "\n")
+            log_file.flush()  # Ensure it's written to the file immediately
 
     sys.excepthook = lambda type, value, tb: log_print("".join(traceback.format_exception(type, value, tb)))
 
     try:
         log_print(f"Starting workflow with price ceiling: ${price_ceiling}")
-        workflow = GiftSuggestionWorkflow(price_ceiling=price_ceiling, timeout=1200, verbose=True)
+        workflow = GiftSuggestionWorkflow(price_ceiling=price_ceiling, log_print_func=log_print, timeout=1200, verbose=True)
         result = await workflow.run()
         log_print(result)
     except Exception as e:
         log_print(f"An error occurred: {str(e)}")
-        traceback.print_exc()
+        traceback.print_exc(file=sys.stdout)
     finally:
         log_print(f"Log saved to: {log_path}")
 

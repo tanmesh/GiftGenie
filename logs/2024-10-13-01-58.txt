@@ -1,0 +1,186 @@
+Starting workflow with price ceiling: $30
+Step: Initialize
+Tweets initialized
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas: Fitness, Outdoor Activities, Technology, Healthy Eating, Programming.
+Gift Categories: Exercise equipment, outdoor adventure gear, smart home devices, organic food baskets, programming guide books, fitness trackers, camping equipment, tech gadget accessories, healthy recipe cookbooks, online coding course subscriptions
+Log saved to: logs/2024-10-13-01-58.txt
+Traceback (most recent call last):
+  File "/Users/lilysu/Documents/git/ragathon/workflow_2.py", line 343, in <module>
+    asyncio.run(main())
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 674, in run_until_complete
+    self.run_forever()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 641, in run_forever
+    self._run_once()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 1986, in _run_once
+    handle._run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/workflow/workflow.py", line 229, in _task
+    new_ev = await instrumented_step(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 353, in async_wrapper
+    result = await func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Documents/git/ragathon/workflow_2.py", line 169, in gift_idea_generator
+    gift_ideas = ctx.data["gift_idea_generator_agent"].chat(f"Generate gift ideas for these categories: {ev.gift_categories}")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 307, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/callbacks/utils.py", line 41, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/agent/runner/base.py", line 647, in chat
+    chat_response = self._chat(
+                    ^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 307, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/agent/runner/base.py", line 579, in _chat
+    cur_step_output = self._run_step(
+                      ^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 307, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/agent/runner/base.py", line 412, in _run_step
+    cur_step_output = self.agent_worker.run_step(step, task, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 307, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/callbacks/utils.py", line 41, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/agent/function_calling/step.py", line 342, in run_step
+    return_direct = self._call_function(
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/agent/function_calling/step.py", line 232, in _call_function
+    call_tool_with_selection(tool_call, tools, verbose=verbose)
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/tools/calling.py", line 75, in call_tool_with_selection
+    output = call_tool(tool, tool_call.tool_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/tools/calling.py", line 19, in call_tool
+    return tool(single_arg)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 307, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/tools/types.py", line 165, in __call__
+    return self.call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 307, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/tools/function_tool.py", line 112, in call
+    tool_output = self._fn(*args, **kwargs)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Documents/git/ragathon/workflow_2.py", line 155, in generate_affordable_gift_ideas
+    response = ctx.data["llm"].complete(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/instrumentation/dispatcher.py", line 307, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/llms/callbacks.py", line 431, in wrapped_llm_predict
+    f_return_val = f(_self, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/llms/openai/base.py", line 373, in complete
+    return complete_fn(prompt, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/core/base/llms/generic_utils.py", line 173, in wrapper
+    chat_response = func(messages, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/llms/openai/base.py", line 106, in wrapper
+    return retry(f)(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/tenacity/__init__.py", line 336, in wrapped_f
+    return copy(f, *args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/tenacity/__init__.py", line 475, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/tenacity/__init__.py", line 376, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/tenacity/__init__.py", line 398, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/tenacity/__init__.py", line 478, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/llama_index/llms/openai/base.py", line 427, in _chat
+    response = client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 274, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 742, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1277, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 954, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 990, in _request
+    response = self._client.send(
+               ^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 216, in handle_request
+    raise exc from None
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 196, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 143, in handle_request
+    raise exc
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 113, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 186, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 224, in _receive_event
+    data = self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lilysu/Library/Caches/pypoetry/virtualenvs/present-picker-3c6MeboK-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 126, in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.6/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 157, in _on_sigint
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
