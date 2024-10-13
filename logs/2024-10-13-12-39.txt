@@ -1,0 +1,69 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['@ms_horrible_ gone as fast as dust in the air... no egg.; no sog.;; no goog... all gone, all goob...', 'https://t.co/mDdF9dDBgJ', '@NABI_CORP forwarded to cv and the government. we are getting to work RIGHT AWAY!!!!! on bringing this suggestion to reality. maybe. if cv likes it.', '@zoaro_ there is a second of stupid before thinking ensues..; give me some slack!', "@Malpace_ hello me i'm ceasar shark", '@zoaro_ the picked poll choice says "minecraft"', 'soggy politics get SERIOUS https://t.co/rhT0AMLL3a https://t.co/bO8kxJlqyi', '@zoaro_ you should stream soggy cat', '@Spamton5 @DeossIsSilly maybe!!!!', '@stasarentmad yeah you have to put the pieces together', 'vitamin supplements']
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas: Humor, Social Media Interaction, Gaming, Politics, Health and Wellness.
+Gift Categories: Comedy Books/DVDs, Funny T-Shirts, Novelty Items, Social Media Merchandise, Phone Accessories, Online Course Subscriptions, Video Games, Gaming Accessories, Board Games, Political Books, Political Memorabilia, Fitness Equipment, Healthy Cookbooks, Wellness Products
+Gift Ideas: Comedy Books/DVDs: "Bossypants" by Tina Fey, "The Office" Complete Series DVD, "Monty Python's Flying Circus" Complete Series DVD, "Is Everyone Hanging Out Without Me?" by Mindy Kaling, "Calypso" by David Sedaris, "The Daily Show" The Book, "The Simpsons" Season 10 DVD, "The Far Side Gallery" by Gary Larson, "Hyperbole and a Half" by Allie Brosh, "The Hitchhiker's Guide to the Galaxy" by Douglas Adams.
+
+Funny T-Shirts: "I'm Not Arguing, I'm Just Explaining Why I'm Right" T-Shirt, "Exercise? I Thought You Said Extra Fries" T-Shirt, "I Speak Fluent Sarcasm" T-Shirt, "I'm Not Lazy, I'm on Energy Saving Mode" T-Shirt, "I Paused My Game to Be Here" T-Shirt, "I'm Not Old, I'm Vintage" T-Shirt, "Math Mental Abuse To Humans" T-Shirt, "I'm Not Short, I'm Fun Size" T-Shirt, "I'm Not Weird, I'm Limited Edition" T-Shirt, "Sarcasm Loading Please Wait" T-Shirt.
+
+Novelty Items: Mini Desktop Bowling, Toilet Mug, Cat Butt Magnets, Giant Gummy Bear, Unicorn Snot Glitter Gel, LED Word Clock, Desktop Punching Bag, Prank Pack “Bathe & Brew”, Screaming Goat Figure, Yodelling Pickle.
+
+Social Media Merchandise: TikTok Logo T-Shirt, Instagram Logo Sticker, Twitter Logo Mug, YouTube Logo Keychain, Snapchat Ghost Plushie, Facebook Logo Mouse Pad, LinkedIn Logo Pen, Pinterest Logo Tote Bag, Reddit Alien Bobblehead, Vine Logo Phone Case.
+
+Phone Accessories: PopSockets PopGrip, Anker Portable Charger, Bluetooth Selfie Stick, Waterproof Phone Case, Phone Camera Lens Kit, Phone Ring Holder, Wireless Charging Pad, Cable Bite Cord Protector, Phone Stand, Screen Protector.
+
+Online Course Subscriptions: Skillshare 2-month Subscription, Coursera Course Gift Card, Udemy Course Gift Card, MasterClass One-Class Pass, LinkedIn Learning Subscription, Codecademy Pro Subscription, Rosetta Stone Language Learning Subscription, Babbel Language Learning Subscription, Adobe Creative Cloud Photography Plan, The Great Courses Plus Subscription.
+
+Video Games: Among Us, Minecraft, Stardew Valley, Terraria, Rocket League, Cuphead, Fall Guys: Ultimate Knockout, Hollow Knight, Celeste, The Sims 4.
+
+Gaming Accessories: Gaming Mouse, Gaming Keyboard, Gaming Headset, Controller Charging Station, Console Skin, Thumb Grip Caps, Game Storage Tower, Controller Silicone Cover, Gaming Mouse Pad, Controller Carry Case.
+
+Board Games: Codenames, Ticket to Ride, Catan, Carcassonne, Pandemic, Splendor, Azul, Dominion, Dixit, The Resistance.
+
+Political Books: "The Audacity of Hope" by Barack Obama, "Hard Choices" by Hillary Clinton, "Fear: Trump in the White House" by Bob Woodward, "The Room Where It Happened" by John Bolton, "Becoming" by Michelle Obama, "A Promised Land" by Barack Obama, "The Truths We Hold" by Kamala Harris, "Team of Rivals" by Doris Kearns Goodwin, "The Federalist Papers" by Alexander Hamilton, James Madison, and John Jay, "Profiles in Courage" by John F. Kennedy.
+
+Political Memorabilia: "I'm With Her" Hillary Clinton Campaign Button, "Make America Great Again" Donald Trump Campaign Hat, Barack Obama "Hope" Poster, Bernie Sanders "Feel The Bern" Mug, "Notorious RBG" Ruth Bader Ginsburg T-Shirt, "Yes We Can" Barack Obama Campaign Poster, "I Like Ike" Dwight Eisenhower Campaign Button, "JFK for President" John F. Kennedy Campaign Poster, "Vote for Pedro" Napoleon Dynamite T-Shirt, "I Miss Obama" Bumper Sticker.
+
+Fitness Equipment: Resistance Bands, Jump Rope, Yoga Mat, Dumbbells, Kettlebell, Exercise Ball, Foam Roller, Push Up Bars, Ab Wheel, Ankle Weights.
+
+Healthy Cookbooks: "The Healthy Meal Prep Cookbook" by Toby Amidor, "The Skinnytaste Cookbook" by Gina Homolka, "The Whole30: The 30-Day Guide to Total Health and Food Freedom" by Melissa Hartwig Urban, "How Not to Die Cookbook" by Michael Greger, "The Plant Paradox Cookbook" by Steven R. Gundry, "The Clean Eating Slow Cooker" by Linda Larsen, "The Mediterranean Diet Weight Loss Solution" by Julene Stassou, "The Easy 5-Ingredient Healthy Cookbook" by Toby Amidor, "The Clean Plate: Eat, Reset, Heal" by Gwyneth Paltrow, "The Fresh and Healthy Instant Pot Cookbook" by Megan Gilmore.
+
+Wellness Products: Essential Oil Diffuser, Sleep Mask, Himalayan Salt Lamp, Acupressure Mat, Aromatherapy Candles, Stress Relief Tea, Lavender Eye Pillow, Yoga Blocks, Foot Massage Roller, Bath Bombs.
+Gift Debates: Gaming Accessories:
+LLM1 (For): Gaming accessories like a gaming mouse or a gaming keyboard can enhance the gaming experience and are a great gift for gamers. They can improve gameplay and make gaming more enjoyable.
+LLM2 (Against): These gifts are very specific and may not be suitable for everyone. Plus, the recipient may already have these accessories or prefer specific brands or models.
+LLM1 (For): While that's true, if you know the recipient is a gamer and you've done your research, these gifts can be a hit. Plus, even if they already have these accessories, upgrades are always appreciated.
+LLM2 (Against): Despite their potential appeal to gamers, these gifts may not be suitable for everyone and there's a risk of duplicating what the recipient already owns.
+
+Board Games:
+LLM1 (For): Board games like Codenames or Ticket to Ride are a fun, social gift that can be enjoyed with friends or family. They provide entertainment and can bring people together.
+LLM2 (Against): While board games can be fun, they may not be suitable for everyone. Some people may not enjoy this type of social activity, and these games often require multiple players.
+LLM1 (For): While it's true that board games are best enjoyed with others, they can still be a great gift for those who enjoy social activities. Plus, many board games can be played with just two players or even solo.
+LLM2 (Against): Even so, it's important to consider whether the recipient will actually play the game. If they're not into board games, this gift may end up collecting dust.
+
+Political Books:
+LLM1 (For): Political books like 'The Audacity of Hope' by Barack Obama or 'Hard Choices' by Hillary Clinton can provide insight into political figures and events. They're a thoughtful gift for those interested in politics.
+LLM2 (Against): Political books can be a risky gift due to the divisive nature of politics. The recipient may not agree with the views expressed in the book or may not be interested in politics at all.
+LLM1 (For): While it's true that politics can be divisive, if you know the recipient's political leanings and interests, these books can be a hit. They provide a deeper understanding of political figures and events.
+LLM2 (Against): Even so, given the potential for disagreement or disinterest, it might be safer to opt for a less controversial gift.
+
+Fitness Equipment:
+LLM1 (For): Fitness equipment like resistance bands or a yoga mat can be a practical and thoughtful gift for those interested in health and fitness. They can be used regularly and contribute to the recipient's wellbeing.
+LLM2 (Against): While fitness equipment can be useful, it may not be suitable for everyone. Not everyone is interested in fitness, and the recipient may already have this equipment.
+LLM1 (For): While that's true, if you know the recipient is interested in fitness, these gifts can be a hit. Plus, fitness equipment can wear out over time, so having replacements can be useful.
+LLM2 (Against): Despite their potential usefulness, these gifts may not be appreciated by everyone and there's a risk of duplicating what the recipient already owns.
+
+The remaining gift ideas would be debated in the same manner, with LLM1 arguing in favor of the gift and LLM2 arguing against it.
+Final Gift Selections: Selected Gifts:
+
+1. Gaming Accessories (Gaming Mouse or Keyboard)
+Rationale: While it's true that these gifts are specific and may not suit everyone, if the recipient is known to be a gamer, these accessories can significantly enhance their gaming experience. Even if they already have these accessories, upgrades are generally appreciated in the gaming community.
+
+2. Board Games (Codenames or Ticket to Ride)
+Rationale: Board games are a versatile gift that can provide entertainment and social interaction. Even if the recipient isn't a frequent board game player, these games can be enjoyed with friends or family, creating fun memories. Plus, many board games can be played with just two players or even solo, offering flexibility.
+
+3. Fitness Equipment (Resistance Bands or Yoga Mat)
+Rationale: Fitness equipment is a practical gift that can contribute to the recipient's health and wellbeing. Even if the recipient already has similar equipment, fitness items can wear out over time, so replacements can be useful. This gift, however, is best suited for someone known to be interested in fitness.
+Amazon Search Keywords: ['Gaming accessories under $30', 'Board games under $30', 'Fitness equipment under $30']

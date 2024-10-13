@@ -19,6 +19,7 @@ import sys
 import ast
 import sys
 import traceback
+from llama_index.core.workflow import draw_all_possible_flows
 from searchx import search_tweets
 
 
@@ -71,7 +72,7 @@ class GiftSuggestionWorkflow(Workflow):
             tweets.append(additional_text)
         
         self.log_print(f"Tweets and additional text compiled: {tweets}")
-        return TweetAnalyzerEvent(tweets=str(tweets))
+        return TweetAnalyzerEvent(tweets=tweets) 
 
     @step(pass_context=True)
     async def tweet_analyzer(self, ctx: Context, ev: TweetAnalyzerEvent) -> InterestMapperEvent:
@@ -266,7 +267,7 @@ class GiftSuggestionWorkflow(Workflow):
         return AmazonKeywordGeneratorEvent(gift_ideas=gift_list)
 
     @step(pass_context=True)
-    async def amazon_keyword_generator(self, ctx: Context, ev: AmazonKeywordGeneratorEvent) -> StopEvent:
+    async def amazon_keyword_generator(self, ctx: Context, ev: AmazonKeywordGeneratorEvent) -> AmazonKeywordGeneratorEvent:
         print("Step: Amazon Keyword Generator")
         if "amazon_keyword_generator_agent" not in ctx.data:
             def generate_keywords(gift_ideas: List[str]) -> List[str]:
@@ -283,16 +284,7 @@ class GiftSuggestionWorkflow(Workflow):
                 Your response:"""
                 
                 response = ctx.data["llm"].complete(prompt)
-                
-                try:
-                    keywords = ast.literal_eval(response.strip())
-                    if isinstance(keywords, list) and all(isinstance(item, str) and f"under ${self.price_ceiling}" in item for item in keywords):
-                        return keywords[:3]
-                    else:
-                        raise ValueError("Response is not a valid list of strings with correct price ceiling")
-                except:
-                    keywords = response.strip().replace("[", "").replace("]", "").split(",")
-                    return [f"{kw.strip().strip('\"\'').split(' under ')[0]} under ${self.price_ceiling}" for kw in keywords[:3]]
+                return response
 
             system_prompt = f"""
                 You are an AI assistant that generates Amazon search keywords based on gift ideas.
@@ -303,10 +295,26 @@ class GiftSuggestionWorkflow(Workflow):
 
             ctx.data["amazon_keyword_generator_agent"] = create_agent(ctx, [generate_keywords], system_prompt)
 
-        amazon_keywords = ctx.data["amazon_keyword_generator_agent"].chat(f"Generate keywords for these gift ideas: {ev.gift_ideas}")
+        amazon_keywords_response = ctx.data["amazon_keyword_generator_agent"].chat(f"Generate keywords for these gift ideas: {ev.gift_ideas}")
+        
+        # Process the AgentChatResponse to extract keywords
+        amazon_keywords_str = str(amazon_keywords_response).strip()
+        try:
+            amazon_keywords = ast.literal_eval(amazon_keywords_str)
+            if not isinstance(amazon_keywords, list):
+                raise ValueError("Response is not a list")
+        except:
+            # If parsing fails, attempt to extract keywords from the string
+            amazon_keywords = [kw.strip() for kw in amazon_keywords_str.strip('[]').split(',') if kw.strip()]
+        
+        # Ensure we have exactly 3 keywords
+        amazon_keywords = amazon_keywords[:3]
+        while len(amazon_keywords) < 3:
+            amazon_keywords.append(f"gift under ${self.price_ceiling}")
+
         print(f"Amazon Search Keywords: {amazon_keywords}")
         self.log_print(f"Amazon Search Keywords: {str(amazon_keywords)}")
-        return StopEvent()
+        return AmazonKeywordGeneratorEvent(gift_ideas=ev.gift_ideas, amazon_keywords=amazon_keywords)
 
 def create_agent(ctx: Context, tools: List[callable], system_prompt: str):
     function_tools = [FunctionTool.from_defaults(fn=tool) for tool in tools]
@@ -339,6 +347,7 @@ async def main():
         log_print(f"Starting workflow with price ceiling: ${price_ceiling}")
         workflow = GiftSuggestionWorkflow(price_ceiling=price_ceiling, log_print_func=log_print, timeout=1200, verbose=True)
         result = await workflow.run()
+        draw_all_possible_flows(GiftSuggestionWorkflow, filename="trivial_workflow.html")
         log_print(result)
     except Exception as e:
         log_print(f"An error occurred: {str(e)}")

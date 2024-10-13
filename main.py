@@ -5,7 +5,7 @@ import asyncio
 from datetime import datetime
 import streamlit as st
 from searchx import search_tweets
-from gift_suggestion_workflow import GiftSuggestionWorkflow, Context, StartEvent
+from gift_suggestion_workflow import GiftSuggestionWorkflow, Context, StartEvent, AmazonKeywordGeneratorEvent
 
 st.set_page_config(page_title="GiftGenie", page_icon="🎁", layout="wide")
 
@@ -41,7 +41,7 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
     with st.spinner("Analyzing tweets and text..."):
         init_event = await workflow.initialize(ctx, StartEvent())
         st.subheader("Tweets Extracted and Additional Information Considered")
-        st.write(interest_event.tweets)
+        st.write(init_event.tweets)
         interest_event = await workflow.tweet_analyzer(ctx, init_event)
         st.subheader("Interests Identified")
         st.write(interest_event.interests)
@@ -68,10 +68,8 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
             st.write(gift)
 
     with st.spinner("Generating Amazon search keywords..."):
-            keywords_event = await workflow.amazon_keyword_generator(ctx, final_gifts_event)
-            st.subheader("Amazon Search Keywords")
-            st.write(keywords_event)
-            return keywords_event
+        keywords_event = await workflow.amazon_keyword_generator(ctx, AmazonKeywordGeneratorEvent(gift_ideas=final_gifts_event.gift_ideas))
+        return keywords_event
 
 def main():
     price_ceiling = st.sidebar.number_input("Set Price Ceiling ($)", min_value=1, max_value=1000, value=30)
@@ -98,10 +96,14 @@ def main():
     if st.button("✨ Let the GiftGenie Grant Your Wish ✨"):
         try:
             log_print(f"Starting workflow with price ceiling: ${price_ceiling}")
-            amazon_keywords = asyncio.run(run_workflow(price_ceiling, twitter_handle, additional_text, log_print))
+            keywords_event = asyncio.run(run_workflow(price_ceiling, twitter_handle, additional_text, log_print))
             st.success("Gift suggestions generated successfully!")
             st.subheader("Amazon Search Keywords")
-            st.write(amazon_keywords)
+            if hasattr(keywords_event, 'amazon_keywords') and keywords_event.amazon_keywords:
+                for keyword in keywords_event.amazon_keywords:
+                    st.write(keyword)
+            else:
+                st.write("No Amazon keywords were generated.")
         except Exception as e:
             log_print(f"An error occurred: {str(e)}")
             traceback.print_exc(file=sys.stdout)
