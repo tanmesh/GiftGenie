@@ -1,0 +1,46 @@
+Starting workflow with price ceiling: $30
+Running step initialize
+Tweets initialized
+Step initialize produced event TweetAnalyzerEvent
+Running step tweet_analyzer
+
+--- Interests identified ---
+The tweets can be categorized into the following interest areas: Fitness, Outdoor Activities, Technology, Healthy Eating, Programming.
+--------------------
+
+Step tweet_analyzer produced event InterestMapperEvent
+Running step interest_mapper
+
+--- Gift Categories ---
+Fitness equipment, outdoor adventure gear, tech gadgets, health-focused cookbooks, programming software, workout clothing, camping supplies, smart home devices, organic food hampers, coding online courses
+--------------------
+
+Step interest_mapper produced event GiftIdeaGeneratorEvent
+Running step gift_idea_generator
+
+--- Gift Ideas ---
+Here are some affordable gift ideas under $30 for each category:
+
+Fitness Equipment: Resistance Bands Set, Yoga Mat, Fitness Jump Rope, Adjustable Dumbbell, Foam Roller, Pilates Ring, Push Up Bars, Ab Wheel Roller, Hand Grip Strengthener, Neoprene Dumbbell Set
+
+Outdoor Adventure Gear: Pocket Blanket for Outdoor Adventure, Portable Camping Hammock, Compact Binoculars, LED Headlamp, Survival Paracord Bracelet, Multi-tool Card, Waterproof Dry Bag, Portable Water Filter, Camping Cookware Mess Kit, Outdoor Survival Kit
+
+Tech Gadgets: Wireless Bluetooth Earbuds, Portable Phone Charger, Mini Bluetooth Speaker, Flexible Phone Tripod, Smart Plug, Touchscreen Cleaning Wipes, USB Desk Fan, LED Desk Lamp with Wireless Charger, Digital Alarm Clock with Wireless Charging, Virtual Reality Headset
+
+Health-Focused Cookbooks: "The Whole30: The 30-Day Guide to Total Health and Food Freedom", "The Healthy Meal Prep Cookbook", "The Easy 5-Ingredient Healthy Cookbook", "The Complete Mediterranean Cookbook", "The Plant-Based Diet for Beginners", "The Skinnytaste Air Fryer Cookbook", "The How Not to Die Cookbook", "The Healthy Smoothie Bible", "The Shredded Chef", "The Clean Eating Slow Cooker"
+
+Programming Software: Python Crash Course Book, JavaScript: The Definitive Guide, Learn Python Quickly, Beginning Programming All-In-One Desk Reference For Dummies, HTML and CSS: Design and Build Websites, Learning Web Design, A Smarter Way to Learn JavaScript, Head First Learn to Code, Coding All-in-One For Dummies, Learn Java in One Day and Learn It Well
+
+Workout Clothing: Workout Tank Tops for Women, Men's Compression Shorts, Women's High Waist Yoga Pants, Men's Dry Fit Athletic Shirts, Women's Sports Bra, Men's Athletic Socks, Women's Running Shorts, Men's Gym Joggers, Women's Long Sleeve Workout Tops, Men's Sweat Wicking Headband
+
+Camping Supplies: Camping Sleeping Pad, Portable Camping Stove, Camping Lantern, Camping Tent Pegs, Camping Pillow, Camping Chair, Camping Utensil Set, Camping Tarp, Camping Mallet, Camping Water Container
+
+Smart Home Devices: Echo Dot (3rd Gen), Smart Light Bulb, Smart Plug, Wi-Fi Range Extender, Smart Wi-Fi Mini Outlet, Smart LED Strip Lights, Wi-Fi Smart Switch, Smart Door Sensor, Smart Wi-Fi Garage Door Opener, Smart Wi-Fi Water Sensor
+
+Organic Food Hampers: Organic Fruit and Nut Gift Basket, Organic Tea Sampler, Organic Raw Honey, Organic Olive Oil, Organic Pumpkin Seed Butter, Organic Dried Fruit Mix, Organic Fancy Trail Mix, Organic Dark Chocolate, Organic Coffee Beans, Organic Spices Set
+
+Coding Online Courses: Codecademy Pro Subscription, Udemy's Complete Python Bootcamp, Coursera's Learn to Program and Analyze Data with Python, Udacity's Intro to Computer Science, LinkedIn Learning's JavaScript Essential Training, edX's CS50's Introduction to Computer Science, Udacity's Intro to HTML and CSS, Udemy's Complete Java Masterclass, Coursera's Learn to Program: The Fundamentals, Codecademy's Learn SQL.
+--------------------
+
+Step gift_idea_generator produced event GiftDebaterEvent
+Running step gift_debater

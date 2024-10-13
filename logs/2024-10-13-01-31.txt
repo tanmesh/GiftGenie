@@ -1,0 +1,39 @@
+Running step initialize
+Step initialize produced event TweetAnalyzerEvent
+Running step tweet_analyzer
+Step tweet_analyzer produced event InterestMapperEvent
+Running step interest_mapper
+
+--- Gift Categories ---
+Sport Equipment, Camping Gear, Gadgets & Electronics, Organic Food Baskets, Coding Books & Software, Fitness Trackers, Outdoor Adventure Experiences, Smart Home Devices, Health and Wellness Cookbooks, Programming Online Courses
+--------------------
+
+Step interest_mapper produced event GiftIdeaGeneratorEvent
+Running step gift_idea_generator
+
+--- Gift Ideas ---
+Here are some affordable gift ideas under $30.0 in your specified categories:
+
+Sport Equipment: Wilson Traditional Soccer Ball, Franklin Sports MLB Teeball Starter Set, Speed Jump Rope, Spalding NBA Street Outdoor Basketball, Wilson Championship Extra Duty Tennis Ball.
+
+Camping Gear: LED Camping Lantern, Portable Outdoor Folding Chair, Waterproof Camping Tarp, Portable Camping Cookware Kit, Lightweight Camping Sleeping Bag.
+
+Gadgets & Electronics: Anker PowerCore 5000 Portable Charger, JBL GO2 Portable Bluetooth Speaker, AmazonBasics 4-Port USB Wall Charger, Clip-On Smartphone Camera Lenses, Mini Wireless Earbuds.
+
+Organic Food Baskets: Organic Dried Fruit Gift Basket, Organic Gourmet Nut Gift Basket, Organic Tea Sampler Gift Set, Organic Spice Gift Set, Organic Honey Gift Set.
+
+Coding Books & Software: "HTML and CSS: Design and Build Websites" by Jon Duckett, "JavaScript: The Good Parts" by Douglas Crockford, "Python Crash Course" by Eric Matthes, "Eloquent JavaScript" by Marijn Haverbeke, "The Pragmatic Programmer" by Andrew Hunt and David Thomas.
+
+Fitness Trackers: Letsfit Fitness Tracker, Lintelek Fitness Tracker, Willful Fitness Tracker, MorePro Fitness Tracker, TEMINICE High-End Fitness Trackers HR.
+
+Outdoor Adventure Experiences: National Parks Puzzle, Outdoor Survival Guide, Waterproof Dry Bag, Portable Camping Hammock, Outdoor Exploration Kit.
+
+Smart Home Devices: Echo Dot (3rd Gen), Smart Plug, Mini Smart Speaker, Smart Light Bulb, Smart Wi-Fi Range Extender.
+
+Health and Wellness Cookbooks: "The Whole30: The 30-Day Guide to Total Health and Food Freedom", "The Wellness Mama Cookbook", "The Healthy Smoothie Bible", "The Oh She Glows Cookbook", "The Skinnytaste Cookbook".
+
+Programming Online Courses: Udemy's "Complete Python Bootcamp", Coursera's "Programming for Everybody", Codecademy Pro Subscription, Udacity's "Intro to Computer Science", LinkedIn Learning's "Learning Python".
+--------------------
+
+Step gift_idea_generator produced event GiftDebaterEvent
+Running step gift_debater
