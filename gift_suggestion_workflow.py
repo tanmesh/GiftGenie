@@ -71,7 +71,7 @@ class GiftSuggestionWorkflow(Workflow):
             tweets.append(additional_text)
         
         self.log_print(f"Tweets and additional text compiled: {tweets}")
-        return TweetAnalyzerEvent(tweets=tweets)
+        return TweetAnalyzerEvent(tweets=str(tweets))
 
     @step(pass_context=True)
     async def tweet_analyzer(self, ctx: Context, ev: TweetAnalyzerEvent) -> InterestMapperEvent:
@@ -179,40 +179,46 @@ class GiftSuggestionWorkflow(Workflow):
     async def gift_debater(self, ctx: Context, ev: GiftDebaterEvent) -> GiftReasonerEvent:
         if "gift_debater_agent" not in ctx.data:
             def debate_gift_ideas(gift_ideas: str) -> str:
-                prompt = f"""Debate the following gift ideas as Christmas gifts under $40. Consider if the person might not like the gift, 
-                whether it's perishable, and if it's age or demographically appropriate. Consider especially How well does this align with
-                the recipient's interest categories?
-                Practicality: is this something the recipient could use regularly or would find particularly useful?
-                Appropriateness: Is the item suitable for a gift appropriate to the recipient's age, gender, lifestyle and demographic?
-                Are there any reasons the recipient might not appreciate this gift?
-                
-                Provide your debate in a structured format as a transcript where the one llm is for the item, and the other llm is against the item as a gift:
+                prompt = f"""Debate the following gift ideas as Christmas gifts under $40. For each gift idea, provide a structured debate between LLM1 (For) and LLM2 (Against). Consider these factors:
+
+                1. Alignment with recipient's interests
+                2. Practicality and usefulness
+                3. Appropriateness for recipient's age, gender, lifestyle, and demographic
+                4. Potential reasons the recipient might not appreciate the gift
+                5. Perishability and longevity of the gift
 
                 Gift ideas:
                 {gift_ideas}
 
-                Debate:"""
-                
-                llm1_response = ctx.data["llm"].complete(prompt + "\nLLM1 (For):")
-                llm2_response = ctx.data["llm"].complete(prompt + "\nLLM2 (Against):")
-                
-                return f"LLM1 (For): {str(llm1_response)}\n\nLLM2 (Against): {str(llm2_response)}"
+                Debate format:
+                [Gift Idea]
+                LLM1 (For): [Argument in favor]
+                LLM2 (Against): [Counter-argument]
+                LLM1 (For): [Rebuttal]
+                LLM2 (Against): [Final point]
+
+                Please provide a structured debate for each gift idea:
+                """
+                return ctx.data["llm"].complete(prompt)
 
             system_prompt = """
-                You are an AI assistant that debates gift ideas.
-                Your task is to provide arguments for and against each gift idea, considering factors like personal preference, perishability, and appropriateness.
-            """
+                You are an AI assistant that facilitates debates on gift ideas. Your role is to:
+                1. Present balanced arguments for and against each gift idea.
+                2. Maintain a consistent debate structure for each gift.
+                3. Ensure that LLM1 always argues in favor of the gift, while LLM2 argues against it.
+                4. Keep each speaker's turn concise and focused on a single point.
+                5. Ensure that the debate covers multiple aspects of the gift's suitability.
+                """
 
             ctx.data["gift_debater_agent"] = create_agent(ctx, [debate_gift_ideas], system_prompt)
 
-        debates = ctx.data["gift_debater_agent"].chat(f"Debate these gift ideas: {ev.gift_ideas}")
-        
-        # Print the debates for the user to see
-        print("\n--- Gift Debates ---")
-        print(str(debates))
-        print("--------------------\n")
-        self.log_print(f"Gift Debates: {str(debates)}")
-        return GiftReasonerEvent(debates=str(debates))
+            debates = ctx.data["gift_debater_agent"].chat(f"Debate these gift ideas: {ev.gift_ideas}")
+            
+            print("\n--- Gift Debates ---")
+            print(str(debates))
+            print("--------------------\n")
+            self.log_print(f"Gift Debates: {str(debates)}")
+            return GiftReasonerEvent(debates=str(debates))
 
     @step(pass_context=True)
     async def gift_reasoner(self, ctx: Context, ev: GiftReasonerEvent) -> AmazonKeywordGeneratorEvent:

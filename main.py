@@ -40,6 +40,8 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
 
     with st.spinner("Analyzing tweets and text..."):
         init_event = await workflow.initialize(ctx, StartEvent())
+        st.subheader("Tweets Extracted and Additional Information Considered")
+        st.write(interest_event.tweets)
         interest_event = await workflow.tweet_analyzer(ctx, init_event)
         st.subheader("Interests Identified")
         st.write(interest_event.interests)
