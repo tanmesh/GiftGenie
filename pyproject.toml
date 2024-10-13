@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "present-picker"
+version = "0.1.0"
+description = ""
+authors = ["Lily Su <lilyxsu@gmail.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+python-dotenv = "^1.0.1"
+colorama = "^0.4.6"
+llama-index-core = "^0.11.0"
+llama-index-agent-openai = "^0.3.0"
+llama-index-llms-anthropic = "^0.2.0"
+llama-index-llms-openai = "^0.2.0"
+llama-index-utils-workflow = "^0.2.0"
+llama-index-embeddings-openai = "^0.2.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
