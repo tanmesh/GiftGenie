@@ -19,6 +19,7 @@ import sys
 import ast
 import sys
 import traceback
+from searchx import search_tweets
 
 
 load_dotenv()
@@ -52,16 +53,10 @@ class GiftSuggestionWorkflow(Workflow):
         self.log_print("Step: Get Tweets and Compile Text")
         ctx.data["llm"] = OpenAI(model="gpt-4", temperature=0.4)
         
-        twitter_handle = ctx.data.get("twitter_handle", "")
+        tweets = ctx.data.get("tweets", [])
         additional_text = ctx.data.get("additional_text", "")
         
-        tweets = []
-        
-        # Generate tweets based on Twitter handle if provided
-        if twitter_handle:
-            tweets = [f"Tweet from {twitter_handle}: This is a dummy tweet {i}" for i in range(1, 6)]
-        
-        # If no tweets from Twitter handle, use default tweets
+        # If no tweets from Twitter handle or if an error occurred, use default tweets
         if not tweets:
             tweets = [
                 "Just finished a great workout at the gym!",

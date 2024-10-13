@@ -4,9 +4,10 @@ import traceback
 import asyncio
 from datetime import datetime
 import streamlit as st
+from searchx import search_tweets
 from gift_suggestion_workflow import GiftSuggestionWorkflow, Context, StartEvent
 
-st.set_page_config(page_title="Gift Suggestion App", page_icon="🎁", layout="wide")
+st.set_page_config(page_title="GiftGenie", page_icon="🎁", layout="wide")
 
 st.markdown(
     """
@@ -20,11 +21,20 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("🎁 Gift Suggestion App")
+st.title("🎁 GiftGenie 🎁")
 
 async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print):
     workflow = GiftSuggestionWorkflow(price_ceiling=price_ceiling, log_print_func=log_print, timeout=1200, verbose=True)
     ctx = Context(workflow)
+    
+    if twitter_handle:
+        # Remove '@' if present
+        twitter_handle = twitter_handle.lstrip('@')
+        tweet_data = search_tweets(twitter_handle)
+        ctx.data["tweets"] = [tweet['text'] for tweet in tweet_data]
+    else:
+        ctx.data["tweets"] = []
+    
     ctx.data["twitter_handle"] = twitter_handle
     ctx.data["additional_text"] = additional_text
 
@@ -64,7 +74,7 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
 def main():
     price_ceiling = st.sidebar.number_input("Set Price Ceiling ($)", min_value=1, max_value=1000, value=30)
     twitter_handle = st.sidebar.text_input("Twitter Handle (optional) 🐦", help="Enter with or without '@'")
-    additional_text = st.sidebar.text_area("Additional Text (optional) 📝", help="Enter any additional text to analyze")
+    additional_text = st.sidebar.text_area("Additional Information (optional) 📝", help="Enter any additional text to analyze")
 
     log_dir = "logs"
     os.makedirs(log_dir, exist_ok=True)
@@ -83,7 +93,7 @@ def main():
     st.write("This app uses a GiftSuggestionWorkflow to analyze tweets and suggest gift ideas.")
     st.write("Click the button below to start the gift suggestion process.")
 
-    if st.button("Generate Gift Suggestions"):
+    if st.button("✨ Let the GiftGenie Grant Your Wish ✨"):
         try:
             log_print(f"Starting workflow with price ceiling: ${price_ceiling}")
             amazon_keywords = asyncio.run(run_workflow(price_ceiling, twitter_handle, additional_text, log_print))
