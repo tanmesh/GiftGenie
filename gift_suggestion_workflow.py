@@ -104,7 +104,13 @@ class GiftSuggestionWorkflow(Workflow):
         print(product_link)
         print("----------------------------\n")
 
-        product_link = product_link[0]
+        try:
+            product_link = product_link[0]
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            traceback.print_exc()
+            return Event(product_links=None, product_image=None, product_title=None, product_price=None, product_rating=None)
+
         print(f"Product link: {product_link}")
         return Event(product_links=product_link['url'], product_image=product_link['thumbnailImage'], product_title=product_link['title'], product_price=product_link['price']['value'], product_rating=product_link['stars'])
         

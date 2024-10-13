@@ -187,15 +187,15 @@ def main():
                 run_workflow(price_ceiling, twitter_handle, additional_text, log_print)
             )
             st.success("Gift suggestions generated successfully!")
-            st.subheader("Amazon Search Keywords")
-            if (
-                hasattr(keywords_event, "amazon_keywords")
-                and keywords_event.amazon_keywords
-            ):
-                for keyword in keywords_event.amazon_keywords:
-                    st.write(keyword)
-            else:
-                st.write("No Amazon keywords were generated.")
+            # st.subheader("Amazon Search Keywords")
+            # if (
+            #     hasattr(keywords_event, "amazon_keywords")
+            #     and keywords_event.amazon_keywords
+            # ):
+            #     for keyword in keywords_event.amazon_keywords:
+            #         st.write(keyword)
+            # else:
+            #     st.write("No Amazon keywords were generated.")
         except Exception as e:
             log_print(f"An error occurred: {str(e)}")
             traceback.print_exc(file=sys.stdout)
