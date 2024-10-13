@@ -1,0 +1,29 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas: Fitness, Outdoor Activities, Technology, Healthy Eating, Programming.
+Gift Categories: Sportswear, Fitness Equipment, Camping Gear, Hiking Gear, Gadgets, Smart Home Devices, Organic Food Hampers, Health Supplements, Coding Books, Software Subscriptions
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled
+Step: Tweet Analyzer
+Interests identified: The tweets have been categorized as follows: Uncategorized, Uncategorized, Uncategorized, Uncategorized, Uncategorized, Sustainability, Environment, Cleaning Products.
+Gift Categories: Eco-Friendly Products, Organic Cleaning Supplies, Gardening Tools, Recycled Goods, Solar-Powered Gadgets, Plant Seeds, Compost Bins, Reusable Shopping Bags, Water-Saving Devices, Natural Beauty Products, Green Living Books, Environmentally Friendly Kitchenware, Biodegradable Products, Zero Waste Starter Kits, Sustainable Fashion.
+Gift Ideas: Here are some affordable gift ideas under $30 in your specified categories:
+
+1. Bamboo Toothbrush Set
+2. Organic Lavender Cleaning Vinegar
+3. Handheld Gardening Tool Set
+4. Recycled Glass Candle Holder
+5. Solar-Powered Phone Charger
+6. Organic Vegetable Seed Pack
+7. Small Kitchen Compost Bin
+8. Cotton Mesh Reusable Produce Bags
+9. Low-Flow Showerhead
+10. Natural Handmade Soap Bars
+11. "The Zero-Waste Lifestyle" Book
+12. Bamboo Cooking Utensil Set
+13. Biodegradable Wheat Straw Plates
+14. Zero Waste Starter Kit
+15. Organic Cotton Reusable Face Mask

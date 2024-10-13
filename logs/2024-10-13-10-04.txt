@@ -1,0 +1,2 @@
+Starting workflow with price ceiling: $30
+An error occurred: 'GiftSuggestionWorkflow' object has no attribute 'get_tweets_and_compile_text'

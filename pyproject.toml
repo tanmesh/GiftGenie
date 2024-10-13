@@ -9,13 +9,16 @@ package-mode = false
 python = "^3.11"
 python-dotenv = "^1.0.1"
 colorama = "^0.4.6"
-llama-index-core = "^0.11.0"
 llama-index-agent-openai = "^0.3.0"
 llama-index-llms-anthropic = "^0.2.0"
 llama-index-llms-openai = "^0.2.0"
 llama-index-utils-workflow = "^0.2.0"
 llama-index-embeddings-openai = "^0.2.5"
 apify-client = "^1.8.1"
+streamlit = "^1.39.0"
+llama-index-core = "^0.11.0"
+llama-index = "^0.11.17"
+pydantic = "^2.9.2"
 
 
 [build-system]

@@ -1,0 +1,31 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['Tweet from bird: This is a dummy tweet 1', 'Tweet from bird: This is a dummy tweet 2', 'Tweet from bird: This is a dummy tweet 3', 'Tweet from bird: This is a dummy tweet 4', 'Tweet from bird: This is a dummy tweet 5', 'birdwatching, bird hunting, birdfeeding, big bird']
+Step: Tweet Analyzer
+Interests identified: The tweets are categorized as follows: Uncategorized, Uncategorized, Uncategorized, Uncategorized, Uncategorized, Birdwatching, Hunting, Birdfeeding, Entertainment.
+Gift Categories: Binoculars, Bird Identification Books, Birdwatching Gear, Hunting Equipment, Camouflage Clothing, Hunting Books, Birdfeeders, Bird Food, Bird Baths, Movie Tickets, Concert Tickets, Streaming Service Subscriptions, Board Games
+Gift Ideas: Here are some affordable gift ideas under $30 for each category:
+
+1. Binoculars: Compact Folding Binoculars
+2. Bird Identification Books: Bird Identification Guide
+3. Birdwatching Gear: Birdwatching Field Notebook
+4. Bird Hunting Equipment: Hunting Whistle
+5. Camouflage Clothing: Camouflage Bandana
+6. Hunting Books: Pocket Hunting Survival Guide
+7. Birdfeeders: Hanging Birdfeeder
+8. Bird Food: Gourmet Bird Seed Mix
+9. Bird Baths: Mini Bird Bath
+10. Movie Tickets: Movie Gift Card
+11. Concert Tickets: Live Concert Recording CD
+12. Streaming Service Subscriptions: Netflix Gift Card
+13. Board Games: Uno Card Game
+
+And some perishable boutique pantry items:
+
+1. Pumpkin Seed Butter
+2. Fancy Trail Mix
+3. Organic Dried Fruit Mix
+4. Gourmet Hot Sauce Sampler
+5. Artisanal Honey
+6. Specialty Tea Sampler
+7. Small Batch Popcorn

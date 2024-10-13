@@ -2,7 +2,7 @@ import os
 import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
-from typing import List, Optional
+from typing import List
 from enum import Enum
 from llama_index.llms.openai import OpenAI
 from llama_index.core.workflow import (
@@ -16,11 +16,8 @@ from llama_index.core.workflow import (
 from llama_index.core.agent import FunctionCallingAgentWorker
 from llama_index.core.tools import FunctionTool
 import sys
-from io import StringIO
 import ast
 import sys
-from contextlib import redirect_stdout
-from io import StringIO
 import traceback
 
 
@@ -52,17 +49,33 @@ class GiftSuggestionWorkflow(Workflow):
 
     @step(pass_context=True)
     async def initialize(self, ctx: Context, ev: StartEvent) -> TweetAnalyzerEvent:
-        self.log_print("Step: Initialize")
+        self.log_print("Step: Get Tweets and Compile Text")
         ctx.data["llm"] = OpenAI(model="gpt-4", temperature=0.4)
-        tweets = [
-            "Just finished a great workout at the gym!",
-            "Can't wait for my camping trip next weekend. Need to get some gear!",
-            "Loving my new smartphone. The camera is amazing!",
-            "Trying to eat healthier. Any good cookbook recommendations?",
-            "Working on a new coding project. Python is so fun!"
-        ]
-        self.log_print("Tweets initialized")
-        print("Tweets initialized")
+        
+        twitter_handle = ctx.data.get("twitter_handle", "")
+        additional_text = ctx.data.get("additional_text", "")
+        
+        tweets = []
+        
+        # Generate tweets based on Twitter handle if provided
+        if twitter_handle:
+            tweets = [f"Tweet from {twitter_handle}: This is a dummy tweet {i}" for i in range(1, 6)]
+        
+        # If no tweets from Twitter handle, use default tweets
+        if not tweets:
+            tweets = [
+                "Just finished a great workout at the gym!",
+                "Can't wait for my camping trip next weekend. Need to get some gear!",
+                "Loving my new smartphone. The camera is amazing!",
+                "Trying to eat healthier. Any good cookbook recommendations?",
+                "Working on a new coding project. Python is so fun!"
+            ]
+        
+        # Add additional text if provided
+        if additional_text:
+            tweets.append(additional_text)
+        
+        self.log_print(f"Tweets and additional text compiled: {tweets}")
         return TweetAnalyzerEvent(tweets=tweets)
 
     @step(pass_context=True)
@@ -88,14 +101,7 @@ class GiftSuggestionWorkflow(Workflow):
             ctx.data["tweet_analyzer_agent"] = create_agent(ctx, [categorize_tweets], system_prompt)
 
         interests = ctx.data["tweet_analyzer_agent"].chat(f"Analyze these tweets: {ev.tweets}")
-        print("\n--- Interests identified ---")
-        print(str(interests))
-        print("--------------------\n")
-        try:
-            self.log_print(f"Interests identified: {str(interests)}")
-        except Exception as e:
-            self.log_print(f"Error in tweet_analyzer: {str(e)}")
-            traceback.print_exc(file=sys.stdout)
+        self.log_print(f"Interests identified: {str(interests)}")
         return InterestMapperEvent(interests=str(interests))
 
     @step(pass_context=True)

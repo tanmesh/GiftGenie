@@ -1,0 +1,18 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['Tweet from excelsior: This is a dummy tweet 1', 'Tweet from excelsior: This is a dummy tweet 2', 'Tweet from excelsior: This is a dummy tweet 3', 'Tweet from excelsior: This is a dummy tweet 4', 'Tweet from excelsior: This is a dummy tweet 5', 'potato']
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas: Insufficient Information, Placeholder Text, Social Media Communication, Unrelated Content, Non-specific Content.
+Gift Categories: "Social media management tools, social media marketing books, online communication courses, graphic design software, creative writing workshops, social media themed board games, personalized social media themed merchandise, digital art supplies, podcasting equipment, online privacy protection tools"
+Gift Ideas: Here are some affordable gift ideas based on the categories you provided:
+
+1. Hootsuite Pro Monthly Subscription: A social media management tool that allows scheduling and tracking of posts.
+2. "Crushing It!" by Gary Vaynerchuk: A book that provides insights into the world of social media marketing.
+3. Udemy's Social Media Marketing Course: An online course to learn about social media marketing strategies.
+4. Canva Pro Monthly Subscription: A graphic design software that provides templates and tools for creating stunning visuals.
+5. Online Creative Writing Workshop from Coursera: A course to enhance creative writing skills.
+6. Social Mediaopoly Board Game: A fun board game themed around social media.
+7. Personalized Instagram Photo Frame: A merchandise that can be personalized with Instagram photos.
+8. Procreate Pocket App: A digital art supply tool for creating art on the go.
+9. Podcast Microphone by Fifine: An affordable yet quality microphone for podcasting.
+10. NordVPN Monthly Subscription: An online privacy protection tool that provides secure and private internet access.
