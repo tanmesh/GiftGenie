@@ -1,7 +1,7 @@
 # GiftGenie
 
 
-https://github.com/user-attachments/assets/e997ea94-efce-4fe0-84b7-6f2525ad997c
+[![GiftGenie: AI-Shopper that Takes the Stress Out of Gift-giving LlamaIndex Workflows Toolhouse Apify](https://img.youtube.com/vi/gI-o8OK9IpA/0.jpg)]([https://www.youtube.com/watch?v=gI-o8OK9IpA](https://www.youtube.com/watch?v=gI-o8OK9IpA)
 
 # GiftGenie - AI-Powered Gift Suggestion App
 
