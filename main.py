@@ -1,19 +1,19 @@
-import ast
-import os
-import sys
-import traceback
 import asyncio
-from datetime import datetime
 import streamlit as st
-from searchx import search_tweets
 from gift_suggestion_workflow import (
     GiftSuggestionWorkflow,
     Context,
     StartEvent,
     AmazonKeywordGeneratorEvent,
+    AmazonProductLinkEvent,  # Add this import
 )
+import traceback
+from searchx import search_tweets
+import os
+from datetime import datetime
+import sys
 
-st.set_page_config(page_title="GiftGenie", page_icon="🎁", layout="wide")
+st.set_page_config(page_title="Gift Genie", page_icon="🎁", layout="wide")
 
 st.markdown(
     """
@@ -22,25 +22,44 @@ st.markdown(
         padding-left: 5rem;
         padding-right: 5rem;
     }
+    .stProgress > div > div > div > div {
+        background-color: #f63366;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-st.title("🎁 GiftGenie 🎁")
+st.title("🎁 Gift Genie MVP 🎁")
 
+# Initialize log_output in session state if it doesn't exist
+if 'log_output' not in st.session_state:
+    st.session_state.log_output = []
 
-async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print):
+def log_print(*args, **kwargs):
+    message = " ".join(map(str, args))
+    print(message, flush=True)  # Print to console immediately
+    st.session_state.log_output.append(message)
+    
+    # Write to log file
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
+    log_filename = datetime.now().strftime("%Y-%m-%d-%H-%M") + ".txt"
+    log_path = os.path.join(log_dir, log_filename)
+    with open(log_path, "a") as log_file:
+        log_file.write(message + "\n")
+        log_file.flush()  # Ensure it's written to the file immediately
+
+async def run_workflow(price_ceiling, twitter_handle, additional_text, progress_bar):
     workflow = GiftSuggestionWorkflow(
         price_ceiling=price_ceiling,
         log_print_func=log_print,
-        timeout=1200,
+        timeout=600,
         verbose=True,
     )
     ctx = Context(workflow)
 
     if twitter_handle:
-        # Remove '@' if present
         twitter_handle = twitter_handle.lstrip("@")
         tweet_data = search_tweets(twitter_handle)
         ctx.data["tweets"] = [tweet["text"] for tweet in tweet_data]
@@ -50,83 +69,96 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
     ctx.data["twitter_handle"] = twitter_handle
     ctx.data["additional_text"] = additional_text
 
-    with st.spinner("Analyzing tweets and text..."):
+    progress_bar.progress(0)
+    
+    with st.expander("Step 1: Analyzing Tweets and Text", expanded=True):
         init_event = await workflow.initialize(ctx, StartEvent())
-        st.subheader("Tweets Extracted and Additional Information Considered")
-        st.write(init_event.tweets)
+        st.subheader("Tweets Extracted and Additional Information")
+        for tweet in init_event.tweets:
+            st.markdown(f"- {tweet}")
         interest_event = await workflow.tweet_analyzer(ctx, init_event)
         st.subheader("Interests Identified")
         st.write(interest_event.interests)
+    progress_bar.progress(20)
 
-    with st.spinner("Mapping interests to gift categories..."):
+    with st.expander("Step 2: Mapping Interests to Gift Categories", expanded=True):
+        st.subheader("Interest Mapping")
         gift_categories_event = await workflow.interest_mapper(ctx, interest_event)
         st.subheader("Gift Categories")
-        st.write(gift_categories_event.gift_categories)
+        st.text(gift_categories_event.gift_categories)
+        categories = gift_categories_event.gift_categories.split(", ")
+        for i, category in enumerate(categories, 1):
+            st.markdown(f"{i}. {category}")
+    progress_bar.progress(40)
 
-    with st.spinner("Generating gift ideas..."):
+    with st.expander("Step 3: Generating Gift Ideas", expanded=True):
         gift_ideas_event = await workflow.gift_idea_generator(ctx, gift_categories_event)
         st.subheader("Gift Ideas")
-        st.write(gift_ideas_event.gift_ideas)
-
-    with st.spinner("Debating gift ideas..."):
-        debates_event = await workflow.gift_debater(ctx, gift_ideas_event)
-        st.subheader("Gift Debates")
-        st.text(debates_event.debates)
-
-    with st.spinner("Reasoning over gift debates..."):
-        final_gifts_event = await workflow.gift_reasoner(ctx, debates_event)
-        st.subheader("Final Gift Selections")
-        for gift in final_gifts_event.gift_ideas:
-            st.write(gift)
-
-    # final_gifts_event = AmazonKeywordGeneratorEvent(gift_ideas=[])
-    # final_gifts_event.gift_ideas = [
-    #     "1. Personalized Photo Frame\nRationale: A thoughtful and sentimental gift that can showcase cherished memories.",
-    #     "2. Portable Bluetooth Speaker\nRationale: Perfect for music lovers and outdoor enthusiasts.",
-    #     "3. Gourmet Chocolate Gift Set\nRationale: A delicious treat that appeals to most people's taste buds.",
-    # ]
-    with st.spinner("Generating Amazon search keywords..."):
-        keywords_event = await workflow.amazon_keyword_generator(
-            ctx, AmazonKeywordGeneratorEvent(gift_ideas=final_gifts_event.gift_ideas)
-        )
+        st.text("Raw Gift Ideas Output:")
+        st.text(gift_ideas_event.gift_ideas)
         
-        keywords_list = keywords_event.amazon_keywords
-        # # Extract the content from the AgentChatResponse
-        # keywords_list = ast.literal_eval(keywords_event.strip())
-        # if not isinstance(keywords_list, list):
-        #     print(f"keywords_list is not a list: {keywords_list}")
-        #     keywords_list = [keywords_event.response]
-        # keywords_list = [
-        #     keyword for keyword in keywords_list if keyword
-        # ]
-
-        print("\n--- Amazon Search Keywords ---")
-        print(keywords_list)
-        print("----------------------------\n")
-
-        # Ensure we have at least one keyword
-        if not keywords_list:
-            st.error("Failed to generate valid keywords. Please try again.")
-            keywords_list = ["Gift under $40"]  # Fallback keyword
-
-        # Display the generated Amazon keywords
-        st.subheader("Amazon Search Keywords")
-        if isinstance(keywords_list, str):
-            keywords = keywords_list.split(",")
+        if isinstance(gift_ideas_event.gift_ideas, list):
+            for idea in gift_ideas_event.gift_ideas:
+                st.markdown(f"- {idea}")
+        elif isinstance(gift_ideas_event.gift_ideas, str):
+            # Try to parse the string as a list
+            try:
+                ideas_list = eval(gift_ideas_event.gift_ideas)
+                if isinstance(ideas_list, list):
+                    for idea in ideas_list:
+                        st.markdown(f"- {idea}")
+                else:
+                    st.warning("Unable to parse gift ideas as a list.")
+            except:
+                st.warning("Unable to parse gift ideas.")
         else:
-            keywords = keywords_list
-        for keyword in keywords:
-            st.write(f"- {keyword.strip()}")
+            st.warning("Unexpected format for gift ideas.")
+    progress_bar.progress(60)
 
-    with st.spinner("Generating Amazon product links..."):
+    with st.expander("Step 4: Debating Gift Ideas", expanded=True):
+        gift_debates_event = await workflow.mediation_agent(ctx, gift_ideas_event)
+        st.subheader("Gift Debates")
+        for gift, debate in gift_debates_event.debates.items():
+            st.write(f"**{gift}**")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("🟢 **Pro:**")
+                st.markdown(debate['pro'])
+            with col2:
+                st.markdown("🔴 **Con:**")
+                st.markdown(debate['con'])
+            st.markdown("---")
+    progress_bar.progress(80)
+
+    with st.expander("Step 5: Reasoning Over Gift Debates", expanded=True):
+        gift_reasoner_event = await workflow.gift_reasoner(ctx, gift_debates_event)
+        st.subheader("Final Gift Selections")
+        for item in gift_reasoner_event.gift_ideas:
+            parts = item.split("Rationale:", 1)
+            if len(parts) == 2:
+                gift, rationale = parts
+                st.markdown(f"**{gift.strip()}**")
+                st.markdown(f"*Rationale:* {rationale.strip()}")
+                st.markdown("---")
+    progress_bar.progress(90)
+
+    with st.expander("Step 6: Generating Amazon Search Keywords", expanded=True):
+        amazon_keyword_event = await workflow.amazon_keyword_generator(ctx, gift_reasoner_event)
+        st.subheader("Amazon Search Keywords")
+        for keyword in amazon_keyword_event.amazon_keywords:
+            st.markdown(f"- {keyword}")
+    progress_bar.progress(95)
+
+    with st.expander("Step 7: Generating Amazon Product Links", expanded=True):
+        st.subheader("Amazon Product Links")
         product_links = []
-        for keyword in keywords:
+        for keyword in amazon_keyword_event.amazon_keywords:
             print(f"Generating product links for keyword: {keyword}")
-            product_links_event = await workflow.amazon_product_link_generator(
-                ctx, keyword
+            product_link_event = await workflow.amazon_product_link_generator(
+                ctx, AmazonProductLinkEvent(keyword=keyword)
             )
-            print(f"Product links event: {product_links_event}")
-            product_links.append(product_links_event)
+            print(f"Product link event: {product_link_event}")
+            product_links.append(product_link_event)
 
         print("\n--- Amazon Product Links ---")
         print(product_links)
@@ -150,7 +182,9 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
                         st.markdown(f"[View]({product_link.product_links})")
                     else:
                         st.write("Link not available")
+    progress_bar.progress(100)
 
+    return amazon_keyword_event
 
 def main():
     price_ceiling = st.sidebar.number_input(
@@ -164,50 +198,31 @@ def main():
         help="Enter any additional text to analyze",
     )
 
-    log_dir = "logs"
-    os.makedirs(log_dir, exist_ok=True)
-    log_filename = datetime.now().strftime("%Y-%m-%d-%H-%M") + ".txt"
-    log_path = os.path.join(log_dir, log_filename)
-
-    def log_print(*args, **kwargs):
-        message = " ".join(map(str, args))
-        print(message, flush=True)
-        with open(log_path, "a") as log_file:
-            log_file.write(message + "\n")
-            log_file.flush()
-
-    sys.excepthook = lambda type, value, tb: log_print(
-        "".join(traceback.format_exception(type, value, tb))
-    )
-
-    st.write(
-        "This app uses a GiftSuggestionWorkflow to analyze tweets and suggest gift ideas."
-    )
-    st.write("Click the button below to start the gift suggestion process.")
-
     if st.button("✨ Let the GiftGenie Grant Your Wish ✨"):
+        progress_bar = st.progress(0)
+        progress_text = st.empty()
         try:
-            log_print(f"Starting workflow with price ceiling: ${price_ceiling}")
-            keywords_event = asyncio.run(
-                run_workflow(price_ceiling, twitter_handle, additional_text, log_print)
+            progress_text.text("Starting the gift suggestion process...")
+            asyncio.run(
+                run_workflow(price_ceiling, twitter_handle, additional_text, progress_bar)
             )
-            st.success("Gift suggestions generated successfully!")
-            # st.subheader("Amazon Search Keywords")
-            # if (
-            #     hasattr(keywords_event, "amazon_keywords")
-            #     and keywords_event.amazon_keywords
-            # ):
-            #     for keyword in keywords_event.amazon_keywords:
-            #         st.write(keyword)
-            # else:
-            #     st.write("No Amazon keywords were generated.")
+            progress_text.text("Gift suggestions generated successfully!")
+            st.balloons()
         except Exception as e:
-            log_print(f"An error occurred: {str(e)}")
-            traceback.print_exc(file=sys.stdout)
             st.error(f"An error occurred: {str(e)}")
+            traceback.print_exc(file=sys.stdout)
+            log_print(f"Error: {str(e)}")  # Log the error
+        finally:
+            progress_bar.empty()
+            progress_text.empty()
 
-    st.info("Note: This process may take a few minutes to complete.")
+    st.sidebar.info("Note: This process may take a few minutes to complete.")
 
+    # Display logs
+    if st.session_state.log_output:
+        with st.expander("Workflow Logs", expanded=False):
+            for log in st.session_state.log_output:
+                st.text(log)
 
 if __name__ == "__main__":
     main()
