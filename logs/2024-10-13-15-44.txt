@@ -1,0 +1,27 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['Just finished a great workout at the gym!', "Can't wait for my camping trip next weekend. Need to get some gear!", 'Loving my new smartphone. The camera is amazing!', 'Trying to eat healthier. Any good cookbook recommendations?', 'Working on a new coding project. Python is so fun!']
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas: Fitness, Outdoor Activities, Technology, Healthy Eating, Programming.
+Gift Categories: Sportswear, Fitness Equipment, Camping Gear, Hiking Gear, Gadgets, Smart Home Devices, Organic Food, Vegan Snacks, Coding Books, Programming Software
+Gift Ideas: Here are some affordable gift ideas under $30 in your specified categories:
+
+Sportswear: Sports headbands, Cooling towel, Running socks, Sports water bottle, Gym gloves, Yoga mat strap, Sports wristbands, Reflective vest for running, Sports shoe laces, Sportswear detergent.
+
+Fitness Equipment: Resistance bands, Jump rope, Yoga blocks, Hand grip strengthener, Exercise sliders, Mini exercise ball, Foam roller, Ankle weights, Push-up bars, Pilates ring.
+
+Camping Gear: Camping spork, LED camping lantern, Camping mug, Camping pillow, Fire starter, Waterproof camping tarp, Camping hammock, Portable camping stove, Camping utensils, Collapsible water bottle.
+
+Hiking Gear: Hiking socks, Hiking gloves, Hiking hat, Survival whistle, Compass, Hiking gaiters, Carabiner clip set, Hiking poles, Waterproof bag cover, Mosquito repellent bracelet.
+
+Gadgets: Phone stand, Wireless mouse, Portable charger, Bluetooth earbuds, USB flash drive, Mini tripod, LED flashlight, Digital alarm clock, Waterproof phone pouch, Multi-tool pen.
+
+Smart Home Devices: Smart light bulb, Smart plug, Smart doorbell, Echo Dot (3rd Gen), Google Home Mini, Smart switch, Smart bulb starter kit, Smart thermostat, Wi-Fi range extender, Smart TV stick.
+
+Organic Food: Organic honey, Organic green tea, Organic olive oil, Organic pumpkin seed butter, Organic quinoa, Organic trail mix, Organic dried fruits, Organic dark chocolate, Organic granola bars, Organic almond butter.
+
+Vegan Snacks: Vegan jerky, Vegan protein bars, Vegan cookies, Vegan popcorn, Vegan chips, Vegan chocolate, Vegan gummies, Vegan trail mix, Vegan granola, Vegan crackers.
+
+Coding Books: "HTML & CSS: Design and Build Websites", "JavaScript: The Good Parts", "Python Crash Course", "Eloquent JavaScript", "You Don't Know JS", "Head First Java", "Learn Python the Hard Way", "The Pragmatic Programmer", "Clean Code", "Code Complete".
+
+Programming Software: Sublime Text (license), PyCharm (license), IntelliJ IDEA (license), Visual Studio Code (license), Atom (license), GitHub Pro (subscription), GitKraken Pro (subscription), Jira Software (subscription), Bitbucket (subscription), ReSharper (license).

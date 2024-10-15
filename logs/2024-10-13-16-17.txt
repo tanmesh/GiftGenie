@@ -1,0 +1,61 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['@ImbayiK @smallie_wambui Kwanza with the futuristic theme, suits would have looked so good.', '@ShikuwaGikonyo Did the liquid help?', '@Kalabata1 @ShiruNjuguna4 Check out Urban tortoise at Rosslyn Mall or Lavington Mall', "@dexxe Lol. Mine ni the right that's worse.", '@dexxe Enda Urban tortoise. Difference is night and day.', '@BlitheTweep_ @Msaghalla Lol', '@EightysixC Urban tortoise you can check out at with Rosslyn Mall or Lavington Mall', '@IamGeci Back ups for th back ups, clever.', "@okhabe @DengzDavid What of the other opticians that also do plastic but the experience is different? For optica it's a quality issue.", '@getty_ngeshi Oh my, even those ones scratch?', 'an avid outdoor enthusiast with a particular passion for rock climbing and landscape photography. She spends her weekends exploring nearby mountains and forests, always on the lookout for challenging ascents and breathtaking vistas to capture through her camera lens. In her downtime, Sarah enjoys cultivating rare succulents in her apartment and experimenting with new vegan recipes, finding joy in nurturing both plants and her own culinary skills.']
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas or activities: Fashion, Futurism, Health, Shopping, Humor, Optometry, Outdoor Activities, Rock Climbing, Landscape Photography, Plant Care, Vegan Cooking.
+Gift Categories: Designer Clothing, Tech Gadgets, Fitness Equipment, Gift Cards, Comedy Books, Eye Care Products, Camping Gear, Climbing Equipment, Photography Equipment, Gardening Tools, Vegan Cookbooks
+Gift Ideas: Here are some affordable gift ideas under $30 for each category:
+
+Designer Clothing: Designer socks, Designer face masks, Designer keychains, Designer handkerchiefs, Designer hair accessories, Designer belt, Designer scarves, Designer cosmetic pouch, Designer gloves, Designer bandanas.
+
+Tech Gadgets: USB flash drives, Phone stands, Bluetooth earbuds, Wireless mouse, Portable phone chargers, Webcam covers, LED desk lamps, Mini Bluetooth speakers, Phone camera lens kits, Smart plugs.
+
+Fitness Equipment: Resistance bands, Yoga blocks, Skipping ropes, Hand grip strengtheners, Exercise balls, Water bottles, Cooling towels, Foam rollers, Adjustable dumbbells, Fitness journals.
+
+Gift Cards: Amazon gift cards, Starbucks gift cards, iTunes gift cards, Netflix gift cards, Walmart gift cards, Target gift cards, Sephora gift cards, Uber gift cards, Best Buy gift cards, Barnes & Noble gift cards.
+
+Comedy Books: "Bossypants" by Tina Fey, "Is Everyone Hanging Out Without Me?" by Mindy Kaling, "The Last Black Unicorn" by Tiffany Haddish, "Me Talk Pretty One Day" by David Sedaris, "Hyperbole and a Half" by Allie Brosh, "Let's Pretend This Never Happened" by Jenny Lawson, "Dad is Fat" by Jim Gaffigan, "Yes Please" by Amy Poehler, "I Can't Make This Up" by Kevin Hart, "Calypso" by David Sedaris.
+
+Eye Care Products: Eye masks, Eye drops, Eye gel pads, Eye roller, Blue light blocking glasses, Eye makeup remover, Eye creams, Eye lash growth serum, Eye shadow palette, Eye brow pencil.
+
+Camping Gear: Camping mugs, Camping utensils, Camping lanterns, Camping hammocks, Camping pillows, Camping towels, Camping stoves, Camping chairs, Camping cookware, Camping tents.
+
+Climbing Equipment: Climbing chalk, Climbing carabiners, Climbing gloves, Climbing harness, Climbing shoes, Climbing brush, Climbing helmet, Climbing slings, Climbing quickdraws, Climbing ropes.
+
+Photography Equipment: Camera straps, Camera cleaning kits, Camera lens caps, Camera bags, Camera tripods, Camera filters, Camera memory cards, Camera flash diffusers, Camera remote controls, Camera lens cleaners.
+
+Gardening Tools: Gardening gloves, Gardening shears, Gardening trowels, Gardening forks, Gardening kneelers, Gardening spades, Gardening pruners, Gardening hoes, Gardening rakes, Gardening watering cans.
+
+Vegan Cookbooks: "Vegan for Everybody" by America's Test Kitchen, "Veganomicon" by Isa Chandra Moskowitz, "Thug Kitchen" by Thug Kitchen, "Vegan Comfort Classics" by Lauren Toyota, "Oh She Glows" by Angela Liddon, "Minimalist Baker's Everyday Cooking" by Dana Shultz, "Vegan Richa's Indian Kitchen" by Richa Hingle, "Forks Over Knives" by Del Sroufe, "Plant-Based on a Budget" by Toni Okamoto, "The Vegan 8" by Brandi Doming.
+Gift Debates: Gift Cards
+LLM1 (For): Gift cards, such as those for Amazon or Starbucks, can be excellent gifts. They offer the recipient the freedom to choose what they want, ensuring the gift is something they'll appreciate.
+LLM2 (Against): However, gift cards can come across as impersonal, suggesting a lack of effort or thought. They also force the recipient to shop at a specific store, which might not be their preference.
+LLM1 (For): That's a valid point, but gift cards can be particularly useful for people who are hard to shop for. They also allow the recipient to buy something they might not typically splurge on.
+LLM2 (Against): Still, gift cards can put pressure on the recipient to spend it in a certain way or within a certain time frame. They can also be easily lost or forgotten about.
+
+Comedy Books
+LLM1 (For): Comedy books can be a great gift, providing entertainment and relaxation. They can also serve as a conversation starter and show that you know the recipient's sense of humor.
+LLM2 (Against): However, humor is highly subjective. What one person finds funny, another might not. Choosing a comedy book as a gift can be a hit or miss.
+LLM1 (For): True, but if you know the recipient enjoys comedy and the author's style, it can be a thoughtful gift. It can also introduce them to a new author or book they might not have picked up themselves.
+LLM2 (Against): Still, books require time and commitment to read. If the recipient isn't an avid reader or if they're busy, the book might end up gathering dust on a shelf.
+
+Eye Care Products
+LLM1 (For): Eye care products can be a thoughtful gift, showing that you care about the recipient's health and wellbeing. They can help alleviate eye strain and improve skin condition.
+LLM2 (Against): However, skincare and eye care products are very personal. The recipient might have specific brands or products they prefer, or the product might not suit their skin type.
+LLM1 (For): While that's true, gifting eye care products can also introduce the recipient to new products they might not have tried. Items like eye masks or blue light blocking glasses can be universally beneficial.
+LLM2 (Against): Still, these products might not be used if they don't fit into the recipient's existing routine or lifestyle. It's also important to consider potential allergies or sensitivities.
+
+The same format can be applied to the remaining gift ideas.
+Final Gift Selections: Selected Gifts:
+
+1. Amazon Gift Card
+   Rationale: Despite the argument that gift cards can seem impersonal, they offer the recipient the freedom to choose something they genuinely want or need. An Amazon gift card, in particular, provides a wide range of options, making it more likely the recipient will find something they like.
+
+2. Comedy Book by a Popular Author
+   Rationale: While humor is subjective, a comedy book by a well-known and widely appreciated author can be a safe bet. It can provide entertainment and relaxation, and if the recipient is known to enjoy comedy, it can be a thoughtful gift.
+
+3. Blue Light Blocking Glasses
+   Rationale: Eye care products can be a bit of a gamble due to personal preferences and potential allergies. However, blue light blocking glasses are a universally beneficial product that can help protect the recipient's eyes, particularly in this digital age where most of us spend a significant amount of time in front of screens.
+
+These three gifts were chosen because they offer a balance of personalization and practicality. The Amazon gift card provides flexibility, the comedy book offers entertainment, and the blue light blocking glasses contribute to the recipient's health and wellbeing.
+An error occurred: 'NoneType' object has no attribute 'get'

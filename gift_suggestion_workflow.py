@@ -112,8 +112,14 @@ class GiftSuggestionWorkflow(Workflow):
             return Event(product_links=None, product_image=None, product_title=None, product_price=None, product_rating=None)
 
         print(f"Product link: {product_link}")
-        return Event(product_links=product_link['url'], product_image=product_link['thumbnailImage'], product_title=product_link['title'], product_price=product_link['price']['value'], product_rating=product_link['stars'])
-        
+        return Event(
+        product_links=product_link.get('url', ''),
+        product_image=product_link.get('thumbnailImage', ''),
+        product_title=product_link.get('title', ''),
+        product_price=product_link.get('price', {}).get('value', 'N/A'),
+        product_rating=product_link.get('stars', 'N/A')
+    )
+
     @step(pass_context=True)
     async def initialize(self, ctx: Context, ev: StartEvent) -> TweetAnalyzerEvent:
         self.log_print("Step: Get Tweets and Compile Text")
@@ -389,6 +395,7 @@ def create_agent(ctx: Context, tools: List[callable], system_prompt: str):
         allow_parallel_tool_calls=False,
         system_prompt=system_prompt
     )
+    draw_all_possible_flows(GiftSuggestionWorkflow, filename="trivial_workflow.html")
     return agent_worker.as_agent()
 
 async def main():
@@ -412,7 +419,7 @@ async def main():
         log_print(f"Starting workflow with price ceiling: ${price_ceiling}")
         workflow = GiftSuggestionWorkflow(price_ceiling=price_ceiling, log_print_func=log_print, timeout=1200, verbose=True)
         result = await workflow.run()
-        draw_all_possible_flows(GiftSuggestionWorkflow, filename="trivial_workflow.html")
+        # draw_all_possible_flows(GiftSuggestionWorkflow, filename="trivial_workflow.html")
         log_print(result)
     except Exception as e:
         log_print(f"An error occurred: {str(e)}")

@@ -1,0 +1,58 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['@ImbayiK @smallie_wambui Kwanza with the futuristic theme, suits would have looked so good.', '@ShikuwaGikonyo Did the liquid help?', '@Kalabata1 @ShiruNjuguna4 Check out Urban tortoise at Rosslyn Mall or Lavington Mall', "@dexxe Lol. Mine ni the right that's worse.", '@dexxe Enda Urban tortoise. Difference is night and day.', '@BlitheTweep_ @Msaghalla Lol', '@EightysixC Urban tortoise you can check out at with Rosslyn Mall or Lavington Mall', '@IamGeci Back ups for th back ups, clever.', "@okhabe @DengzDavid What of the other opticians that also do plastic but the experience is different? For optica it's a quality issue.", '@getty_ngeshi Oh my, even those ones scratch?', 'an avid outdoor enthusiast with a particular passion for rock climbing and landscape photography. She spends her weekends exploring nearby mountains and forests, always on the lookout for challenging ascents and breathtaking vistas to capture through her camera lens. In her downtime, Sarah enjoys cultivating rare succulents in her apartment and experimenting with new vegan recipes, finding joy in nurturing both plants and her own culinary skills.']
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas or activities: Fashion, Humor, Shopping, Optometry, Outdoor Activities, Rock Climbing, Landscape Photography, Plant Care, Vegan Cooking.
+Gift Categories: Designer Clothing, Comedy Books/DVDs, Gift Cards, Eye Care Products, Camping Gear, Climbing Equipment, Photography Equipment, Gardening Tools, Vegan Cookbooks
+Gift Ideas: Here are some affordable gift ideas under $30 for the categories you mentioned:
+
+Designer Clothing: Designer socks, Designer handkerchief, Designer keychains, Designer headbands, Designer face masks, Designer cosmetic pouch, Designer wallet, Designer scarf, Designer tie, Designer gloves
+
+Comedy Books/DVDs: "Bossypants" by Tina Fey, "Is Everyone Hanging Out Without Me?" by Mindy Kaling, "I Can't Make This Up" by Kevin Hart, "The Daily Show with Jon Stewart Presents America", "Monty Python's Flying Circus" DVD set, "The Office" DVD set, "Parks and Recreation" DVD set, "Arrested Development" DVD set, "The Big Bang Theory" DVD set, "The Simpsons" DVD set
+
+Gift Cards: Amazon gift card, Starbucks gift card, iTunes gift card, Netflix gift card, Sephora gift card, Target gift card, Walmart gift card, Barnes & Noble gift card, Olive Garden gift card, Best Buy gift card
+
+Eye Care Products: Rohto Cooling Eye Drops, Bausch + Lomb Soothe XP Dry Eye Drops, Systane Ultra Lubricant Eye Drops, TheraTears Eye Drops for Dry Eyes, Ocusoft Lid Scrub Plus, Eye Mask for Dry Eyes, Blink Contacts Lubricating Eye Drops, Optrex ActiMist 2in1 Eye Spray, Visine Original Redness Reliever Eye Drops, Refresh Optive Advanced Lubricant Eye Drops
+
+Camping Gear: Coleman Sundome Tent, MalloMe Camping Cookware Mess Kit, LifeStraw Personal Water Filter, Anker Rechargeable Bolder LC90 LED Flashlight, Swiss Army Knife, Coleman Portable Camping Quad Chair, Etekcity Portable Outdoor LED Camping Lantern, Coleman Brazos Cold Weather Sleeping Bag, Coleman Gas Camping Stove, Coleman FreeFlow AUTOSEAL Insulated Stainless Steel Water Bottle
+
+Climbing Equipment: Black Diamond Positron Carabiner, Metolius Simulator 3D Training Board, PETZL Grigri 2 Belay Device, Black Diamond Momentum Harness, PETZL - TIKKINA Headlamp, PETZL - Spirit Express Quickdraw, Black Diamond ATC-XP Belay Device, PETZL - SAKA Chalkbag, Black Diamond White Gold Chalk, Metolius Ultralight Master Cam
+
+Photography Equipment: AmazonBasics 60-Inch Lightweight Tripod, Neewer 5 in 1 Portable Reflector, Altura Photo Professional Cleaning Kit, SanDisk 32GB Ultra SDHC Memory Card, AmazonBasics Medium DSLR Gadget Bag, Neewer 48 Macro LED Ring Flash, AmazonBasics Wireless Remote Control for Canon Cameras, Neewer 43 Inch Light Reflector, Altura Photo Mini Tripod, AmazonBasics UV Protection Camera Lens Filter
+
+Gardening Tools: Fiskars Softouch Garden Tool 3 Piece Set, G & F 10018 JustForKids Kids Garden Tools Set, Vremi 9 Piece Garden Tools Set, Fiskars 28 Inch Bypass Lopper, Fiskars Steel Bypass Pruning Shears, UKOKE Garden Tool Set, Scuddles Garden Tools Set, TACKLIFE Garden Tools Set, FLORA GUARD 6 Piece Garden Tool Sets, Edward Tools Hoe and Cultivator Hand Tiller
+
+Vegan Cookbooks: "Thug Kitchen: The Official Cookbook", "Forks Over Knives - The Cookbook", "Oh She Glows Cookbook", "Veganomicon: The Ultimate Vegan Cookbook", "Minimalist Baker's Everyday Cooking", "Isa Does It: Amazingly Easy, Wildly Delicious Vegan Recipes", "Vegan for Everybody: Foolproof Plant-Based Recipes", "The Vegan 8: 100 Simple, Delicious Recipes", "Vegan Richa's Indian Kitchen", "The Homemade Vegan Pantry: The Art of Making Your Own Staples"
+Gift Debates: Climbing Equipment
+LLM1 (For): Climbing equipment can be an excellent gift for adventure seekers and fitness enthusiasts. It not only supports their hobby but also ensures their safety during their climbing sessions.
+LLM2 (Against): On the other hand, climbing equipment may not be suitable for everyone. If the recipient is not into climbing or similar activities, such a gift might be useless and even confusing.
+LLM1 (For): Even so, high-quality climbing equipment can inspire the recipient to try out a new hobby. It can be a thoughtful nudge towards a healthier and more adventurous lifestyle.
+LLM2 (Against): Despite the good intentions, gifting climbing equipment to someone inexperienced can also be potentially dangerous if they decide to try it without proper training or supervision.
+
+Photography Equipment
+LLM1 (For): Photography equipment can be a fantastic gift for photography enthusiasts or those interested in starting the hobby. It can help them enhance their skills and capture better quality images.
+LLM2 (Against): However, photography equipment may not be appreciated by those who are not into photography. It can also be a bit complicated for beginners to use without guidance.
+LLM1 (For): Even if they are beginners, having their own photography equipment can encourage them to learn and pursue photography. It can be a great starting point for a new hobby.
+LLM2 (Against): While that may be true, photography equipment might still not be appreciated by those who prefer simpler or more traditional gifts.
+
+Gardening Tools
+LLM1 (For): Gardening tools can be a great gift for those who love gardening or want to start a home garden. They are practical and can provide a lot of satisfaction to the recipient.
+LLM2 (Against): Conversely, not everyone has a green thumb or the space for gardening. Such a gift might end up unused and taking up space.
+LLM1 (For): Even for those without a garden, these tools can be useful for indoor plants or balcony gardens. They can also inspire the recipient to start gardening, which is a healthy and rewarding hobby.
+LLM2 (Against): Despite these points, gardening tools might still not be appreciated by those who have no interest in gardening or prefer more personal or unique gifts.
+
+Vegan Cookbooks
+LLM1 (For): Vegan cookbooks can be a fantastic gift for those interested in veganism or healthy eating. They provide a wealth of recipes and can inspire the recipient to try new dishes.
+LLM2 (Against): However, not everyone follows a vegan diet or enjoys cooking. Such a gift might not be appreciated by those who prefer eating out or have dietary preferences different from veganism.
+LLM1 (For): Even for non-vegans, these cookbooks can introduce them to new recipes and encourage them to incorporate more plant-based meals into their diet. It can be a great way to promote healthier eating habits.
+LLM2 (Against): Despite these benefits, vegan cookbooks might still not be appreciated by those who have no interest in cooking or prefer more traditional or personal gifts.
+Final Gift Selections: Selected Gifts:
+
+1. Photography Equipment
+Rationale: Photography equipment is a versatile gift that can cater to both enthusiasts and beginners. It can help enhance skills and potentially spark a new hobby. While it may not be appreciated by those who prefer simpler gifts, its potential to inspire creativity and provide a platform for a new hobby makes it a great choice.
+
+2. Gardening Tools
+Rationale: Gardening tools are a practical gift that can be used by those with a garden or even indoor plants. It encourages a healthy and rewarding hobby and can be appreciated by a wide range of people. The potential limitation of space or lack of interest can be outweighed by the versatility and practicality of this gift.
+
+3. Vegan Cookbooks
+Rationale: Vegan cookbooks can cater to a wide range of dietary preferences, not just vegans. They can introduce new recipes and promote healthier eating habits. While it may not be appreciated by those who do not enjoy cooking, the potential to inspire healthier eating habits and introduce new recipes makes it a thoughtful gift.

@@ -1,0 +1,29 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['@ImbayiK @smallie_wambui Kwanza with the futuristic theme, suits would have looked so good.', '@ShikuwaGikonyo Did the liquid help?', '@Kalabata1 @ShiruNjuguna4 Check out Urban tortoise at Rosslyn Mall or Lavington Mall', "@dexxe Lol. Mine ni the right that's worse.", '@dexxe Enda Urban tortoise. Difference is night and day.', '@BlitheTweep_ @Msaghalla Lol', '@EightysixC Urban tortoise you can check out at with Rosslyn Mall or Lavington Mall', '@IamGeci Back ups for th back ups, clever.', "@okhabe @DengzDavid What of the other opticians that also do plastic but the experience is different? For optica it's a quality issue.", '@getty_ngeshi Oh my, even those ones scratch?', 'an avid outdoor enthusiast with a particular passion for rock climbing and landscape photography. She spends her weekends exploring nearby mountains and forests, always on the lookout for challenging ascents and breathtaking vistas to capture through her camera lens. In her downtime, Sarah enjoys cultivating rare succulents in her apartment and experimenting with new vegan recipes, finding joy in nurturing both plants and her own culinary skills.']
+Step: Tweet Analyzer
+Interests identified: The tweets can be categorized into the following interest areas or activities: Fashion, Futurism, Health, Shopping, Humor, Optometry, Outdoor Activities, Rock Climbing, Landscape Photography, Plant Care, Vegan Cooking.
+Gift Categories: Designer Clothing, Tech Gadgets, Fitness Equipment, Gift Cards, Comedy Books, Eye Care Accessories, Camping Gear, Climbing Equipment, Photography Equipment, Gardening Tools, Vegan Recipe Books
+Gift Ideas: Here are some affordable gift ideas under $30 for each category:
+
+Designer Clothing: Designer socks, Designer face masks, Designer keychains, Designer bandanas, Designer hair accessories, Designer pocket squares, Designer coin purses, Designer gloves, Designer scarves, Designer hat.
+
+Tech Gadgets: USB flash drives, Portable phone chargers, Bluetooth earbuds, Phone stands, LED desk lamps, Mini Bluetooth speakers, Touchscreen gloves, Webcam covers, Digital alarm clocks, Multi-port USB chargers.
+
+Fitness Equipment: Yoga blocks, Resistance bands, Jump ropes, Hand grip strengtheners, Mini exercise balls, Cooling towels, Foam rollers, Water bottles, Fitness journals, Pedometer.
+
+Gift Cards: Amazon gift card, Starbucks gift card, iTunes gift card, Netflix gift card, Uber gift card, Sephora gift card, Target gift card, Barnes & Noble gift card, Whole Foods gift card, Etsy gift card.
+
+Comedy Books: "Bossypants" by Tina Fey, "Is Everyone Hanging Out Without Me?" by Mindy Kaling, "Let's Pretend This Never Happened" by Jenny Lawson, "Yes Please" by Amy Poehler, "Dad is Fat" by Jim Gaffigan, "Furiously Happy" by Jenny Lawson, "Hyperbole and a Half" by Allie Brosh, "Me Talk Pretty One Day" by David Sedaris, "The Last Black Unicorn" by Tiffany Haddish, "Calypso" by David Sedaris.
+
+Eye Care Accessories: Blue light blocking glasses, Eye mask for sleeping, Eye drops, Eyeglass cleaning cloths, Eyeglass repair kit, Contact lens case, Eyeglass chain, Eyeglass case, Eye makeup remover, Eyelash curler.
+
+Camping Gear: Camping mugs, Camping utensils, Camping lanterns, Fire starters, Camping towels, Camping pillows, Camping hammocks, Camping compass, Camping cookware, Camping first aid kit.
+
+Climbing Equipment: Climbing chalk, Climbing tape, Carabiners, Climbing brush, Belay device, Climbing gloves, Climbing sling, Climbing helmet, Climbing nut tool, Climbing quickdraws.
+
+Photography Equipment: Camera lens cleaning kit, Camera strap, Mini tripod, Memory card case, Lens cap leash, Photography gloves, Flash diffuser, Camera bag, Camera rain cover, Photography book.
+
+Gardening Tools: Hand trowel, Pruning shears, Gardening gloves, Plant mister, Seed packets, Gardening knee pad, Bulb planter, Weed puller, Plant labels, Garden twine.
+
+Vegan Recipe Books: "Vegan on a Budget" by Nava Atlas, "Vegan Richa's Everyday Kitchen" by Richa Hingle, "Veganomicon" by Isa Chandra Moskowitz, "Thug Kitchen: The Official Cookbook", "Oh She Glows Every Day" by Angela Liddon, "Vegan for Everybody" by America's Test Kitchen, "Forks Over Knives - The Cookbook" by Del Sroufe, "Vegan Under Pressure" by Jill Nussinow, "The Simply Vegan Cookbook" by Dustin Harder, "Minimalist Baker's Everyday Cooking" by Dana Shultz.

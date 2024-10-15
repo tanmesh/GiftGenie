@@ -1,0 +1,29 @@
+Starting workflow with price ceiling: $30
+Step: Get Tweets and Compile Text
+Tweets and additional text compiled: ['@ms_horrible_ gone as fast as dust in the air... no egg.; no sog.;; no goog... all gone, all goob...', 'https://t.co/mDdF9dDBgJ', '@NABI_CORP forwarded to cv and the government. we are getting to work RIGHT AWAY!!!!! on bringing this suggestion to reality. maybe. if cv likes it.', '@zoaro_ there is a second of stupid before thinking ensues..; give me some slack!', "@Malpace_ hello me i'm ceasar shark", "@zoaro_ the picked poll choice says 'minecraft'", 'soggy politics get SERIOUS https://t.co/rhT0AMLL3a https://t.co/bO8kxJlqyi', '@zoaro_ you should stream soggy cat', '@Spamton5 @DeossIsSilly maybe!!!!', '@stasarentmad yeah you have to put the pieces together', 'writing journaling']
+Step: Tweet Analyzer
+Interests identified: Social Media Interaction, Humor, Government and Politics, Gaming, Journalism and Writing
+Gift Categories: Social Media Gadgets, Comedy Books/DVDs, Political History Books, Video Games/Accessories, Writing Tools/Books on Journalism, Political Board Games, Humorous Gaming Merchandise, Social Media Marketing Courses, Satirical Political Literature, Journalism Documentaries
+Gift Ideas: Here are some affordable gift ideas under $30 for each category:
+
+Social Media Gadgets: Mini Selfie Ring Light, PopSockets Grip, Smartphone Camera Lens Kit, Social Media Planner, Emoji Stress Balls, Portable Phone Charger, Social Media Sticker Pack, Flexible Phone Tripod, Bluetooth Selfie Stick, Smartphone Stand.
+
+Comedy Books/DVDs: "Bossypants" by Tina Fey, "The Office" DVD Box Set, "Yes Please" by Amy Poehler, "Monty Python's Flying Circus" DVD Collection, "Three Men in a Boat" by Jerome K. Jerome, "The Hitchhiker's Guide to the Galaxy" by Douglas Adams, "Parks and Recreation" DVD Box Set, "Is Everyone Hanging Out Without Me?" by Mindy Kaling, "The Daily Show" DVD Box Set, "I Can't Make This Up: Life Lessons" by Kevin Hart.
+
+Political History Books: "The Federalist Papers" by Alexander Hamilton, "The Audacity of Hope" by Barack Obama, "Team of Rivals: The Political Genius of Abraham Lincoln" by Doris Kearns Goodwin, "The Conscience of a Conservative" by Barry Goldwater, "Common Sense" by Thomas Paine, "The Righteous Mind: Why Good People Are Divided by Politics and Religion" by Jonathan Haidt, "The Origins of Political Order" by Francis Fukuyama, "The Clash of Civilizations" by Samuel P. Huntington, "The Prince" by Niccolo Machiavelli, "The Art of War" by Sun Tzu.
+
+Video Games/Accessories: Fortnite V-Bucks Gift Card, Nintendo Switch Screen Protector, Xbox Live Gold Membership, PlayStation Store Gift Card, Gaming Mouse Pad, Super Mario Bros Heat Changing Mug, Minecraft Plush Toy, Gaming Headset Stand, Zelda Triforce Keychain, Pac-Man Ghost Light.
+
+Writing Tools/Books on Journalism: "The Elements of Style" by William Strunk Jr., Moleskine Classic Notebook, Pilot G2 Premium Gel Roller Pens, "On Writing Well" by William Zinsser, "The Associated Press Stylebook", "Bird by Bird: Some Instructions on Writing and Life" by Anne Lamott, "The Art and Craft of Feature Writing" by William E. Blundell, "Writing Tools: 55 Essential Strategies for Every Writer" by Roy Peter Clark, "The New New Journalism" by Robert S. Boynton, "The Journalist and the Murderer" by Janet Malcolm.
+
+Political Board Games: "Twilight Struggle", "1960: The Making of the President", "The Resistance: Avalon", "Secret Hitler", "Coup", "Democracy under Siege", "Power Grid", "Tammany Hall", "13 Minutes: The Cuban Missile Crisis", "The Primary".
+
+Humorous Gaming Merchandise: "Eat Sleep Game Repeat" T-shirt, "I Paused My Game to Be Here" Mug, "Gamer at Work" Door Sign, "Achievement Unlocked" Keychain, "I Went Outside Once, The Graphics Weren't That Good" Poster, "Gamer Fuel" Water Bottle, "Do Not Disturb, Gaming Mode Activated" Socks, "Level Up" Birthday Card, "Game Over" Phone Case, "Respawn in 3..2..1.." Pillow.
+
+Social Media Marketing Courses: "Social Media Marketing Mastery: Learn Ads on 10+ Platforms" on Udemy, "Facebook Ads & Facebook Marketing MASTERY" on Udemy, "Instagram Marketing 2021: Complete Guide To Instagram Growth" on Udemy, "The Complete Digital Marketing Course" on Udemy, "LinkedIn Marketing, Lead Generation & B2B Sales for LinkedIn" on Udemy, "Twitter Marketing in 2020: Be a Social Influencer" on Udemy, "YouTube Masterclass - Your Complete Guide to YouTube" on Udemy, "Pinterest Marketing & Advertising Beginner To Advanced 2020" on Udemy, "Snapchat Marketing: Attract New Customers & Grow Your Brand" on Udemy, "TikTok Marketing for Beginners 2021: Advertising on TikTok" on Udemy.
+
+Satirical Political Literature: "Animal Farm" by George Orwell, "Catch-22" by Joseph Heller, "Brave New World" by Aldous Huxley, "1984" by George Orwell, "Fahrenheit 451" by Ray Bradbury, "Slaughterhouse-Five" by Kurt Vonnegut, "The Handmaid's Tale" by Margaret Atwood, "Lord of the Flies" by William Golding, "The Trial" by Franz Kafka, "The Great Dictator" by Charlie Chaplin.
+
+Journalism Documentaries: "Page One: Inside the New York Times", "The Fourth Estate", "Spotlight", "All the President's Men", "The Post", "Citizenfour", "The Panama Papers", "The Insider", "Good Night, and Good Luck", "Shattered Glass".
+Gift Debates: Yes, please continue with the debate.
+Final Gift Selections: I'm sorry, but I can't reason over the debates without any specific debates to analyze. Can you please provide the debates for me to analyze?

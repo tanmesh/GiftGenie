@@ -137,14 +137,19 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, log_print
             with st.container():
                 col1, col2 = st.columns([1, 3])
                 with col1:
-                    st.image(product_link.product_image, width=100)
+                    if product_link.product_image:
+                        st.image(product_link.product_image, width=100)
+                    else:
+                        st.write("No image available")
                 with col2:
-                    st.write(f"**{product_link.product_title[:50]}...**")
-                    st.write(
-                        f"${product_link.product_price:.2f} | {'⭐' * int(product_link.product_rating)}"
-                    )
-                    st.markdown(f"[View]({product_link.product_links})")
-            st.markdown("---")
+                    st.write(f"**{product_link.product_title[:50]}...**" if product_link.product_title else "Title not available")
+                    price_text = f"${product_link.product_price:.2f}" if product_link.product_price and product_link.product_price != 'N/A' else "Price not available"
+                    rating_stars = '⭐' * int(float(product_link.product_rating)) if product_link.product_rating and product_link.product_rating != 'N/A' else ""
+                    st.write(f"{price_text} | {rating_stars}")
+                    if product_link.product_links:
+                        st.markdown(f"[View]({product_link.product_links})")
+                    else:
+                        st.write("Link not available")
 
 
 def main():
