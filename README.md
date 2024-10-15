@@ -1,6 +1,6 @@
 # GiftGenie
 
-![GiftGenie Gif]([https://github.com/tanmesh/GiftGenie/blob/main/GiftGenie-ezgif.com-video-to-gif-converter.gif](https://github.com/tanmesh/GiftGenie/blob/main/GiftGenieGif.gif))
+![GiftGenie Demo](https://github.com/tanmesh/GiftGenie/blob/main/GiftGenieGif.gif?raw=true)
 
 [GiftGenie Youtube Demo Video](https://www.youtube.com/watch?v=gI-o8OK9IpA)
 
