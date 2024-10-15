@@ -1,8 +1,8 @@
 # GiftGenie
 
-![GiftGenie Gif](https://github.com/tanmesh/GiftGenie/blob/main/GiftGenie-ezgif.com-video-to-gif-converter.gif)
+![GiftGenie Gif]([https://github.com/tanmesh/GiftGenie/blob/main/GiftGenie-ezgif.com-video-to-gif-converter.gif](https://github.com/tanmesh/GiftGenie/blob/main/GiftGenieGif.gif))
 
-[![GiftGenie Youtube Demo Video](https://img.youtube.com/vi/gI-o8OK9IpA/0.jpg)](https://www.youtube.com/watch?v=gI-o8OK9IpA)
+[GiftGenie Youtube Demo Video](https://www.youtube.com/watch?v=gI-o8OK9IpA)
 
 # GiftGenie - AI-Powered Gift Suggestion App
 
