@@ -3,32 +3,26 @@ import re
 from llama_index.llms.openai import OpenAI
 import os
 import asyncio
-import streamlit as st
 from datetime import datetime
-from dotenv import load_dotenv
 from typing import List
-from enum import Enum
 from llama_index.llms.openai import OpenAI
 from llama_index.core.workflow import (
     step,
     Context,
     Workflow,
     Event,
-    StartEvent,
-    StopEvent
+    StartEvent
 )
 from llama_index.core.agent import FunctionCallingAgentWorker
 from llama_index.core.tools import FunctionTool
 import sys
 import ast
 import traceback
-from llama_index.core.workflow import draw_all_possible_flows
-from searchx import search_tweets
-from typing import List, Dict
+from typing import List, Dict, Optional
 from llama_index.core.workflow import Event
 import sys
 import json
-from typing import Union
+import random
 
 
 class InitializeEvent(Event):
@@ -51,7 +45,7 @@ class GiftDebaterEvent(Event):
     debates: Dict[str, Dict[str, str]]
 
 class GiftReasonerEvent(Event):
-    debates: Dict[str, List[str]]
+    gift_ideas: Dict[str, List[str]]
 
 class AmazonKeywordGeneratorEvent(Event):
     gift_ideas: List[str]
@@ -65,8 +59,8 @@ class AmazonProductLinkEvent(Event):
 
 class ProductLinkEvent(Event):
     product_title: str
-    product_price: float
-    product_rating: float
+    product_price: Optional[float] = None
+    product_rating: Optional[float] = None
     product_image: str
     product_links: str
 
@@ -124,7 +118,7 @@ class GiftSuggestionWorkflow(Workflow):
         if "tweet_analyzer_agent" not in ctx.data:
             def categorize_tweets(tweets: List[str]) -> str:
                 prompt = f"""Analyze the following tweets and categorize them into interest areas or activities. 
-                If you can't determine specific interests, use these default categories: Technology, Books, Travel, Food, Fitness.
+                If you can't determine specific interests, use these default categories: Technology,  Self-Care, Travel, Food, Fitness.
                 Provide a comma-separated list of at least 5 categories:
 
                 Tweets:
@@ -138,7 +132,7 @@ class GiftSuggestionWorkflow(Workflow):
                 You are an AI assistant that analyzes tweets and categorizes them into interest areas or activities.
                 Your task is to provide a comma-separated list of at least 5 categories based on the given tweets.
                 If you can't determine specific interests from the tweets, use these default categories: 
-                Technology, Books, Travel, Food, Fitness.
+                Technology, Self-Care, Travel, Food, Fitness.
             """
 
             ctx.data["tweet_analyzer_agent"] = self.create_agent(ctx, [categorize_tweets], system_prompt)
@@ -154,7 +148,7 @@ class GiftSuggestionWorkflow(Workflow):
             def map_interests_to_gift_categories(interests: str) -> str:
                 prompt = f"""For each of the following interest categories, suggest potential gift categories.
                 If the interests are unclear, use these default gift categories: 
-                Tech Gadgets, Bestselling Books, Travel Accessories, Gourmet Food Items, Fitness Equipment.
+                'specialty dark chocolate','premium coffee','charcuterie board items','perishable boutique pantry items'.
                 Provide a comma-separated list of at least 10 gift categories:
 
                 Interest categories:
@@ -168,7 +162,7 @@ class GiftSuggestionWorkflow(Workflow):
                 You are an AI assistant specializing in mapping interest categories to potential gift categories. 
                 Your task is to generate a diverse and relevant list of at least 10 gift categories based on given interests.
                 If the interests are unclear or insufficient, use these default gift categories: 
-                Tech Gadgets, Bestselling Books, Travel Accessories, Gourmet Food Items, Fitness Equipment.
+                Charcuterie, fruit preserves, fancy olive oil, specialty nut butters.
                 Ensure each gift category is specific enough to be useful for gift searching, but broad enough to encompass multiple gift options.
             """
 
@@ -181,49 +175,98 @@ class GiftSuggestionWorkflow(Workflow):
     @step(pass_context=True)
     async def gift_idea_generator(self, ctx: Context, ev: GiftIdeaGeneratorEvent) -> MediationEvent:
         self.log_print("Step: Gift Idea Generator")
-        if "gift_idea_generator_agent" not in ctx.data:
-            def generate_affordable_gift_ideas(gift_categories: str) -> str:
-                prompt = f"""For each of the following gift categories, suggest gift ideas under ${self.price_ceiling}. 
-                Always recommend only 2 items per category which may include perishable boutique pantry items like pumpkin seed butter or fancy trail mix. 
-                If the gift categories are unclear, use these default ideas: 
-                Wireless earbuds, Bestselling novel, Travel neck pillow, Gourmet coffee sampler, Resistance bands set.
-                Provide a Python list of specific gift ideas. For example:
-                ['Wireless earbuds', 'Bestselling novel']
-
-                Gift categories:
-                {gift_categories}"""
-                response = ctx.data["llm"].complete(prompt)
-                return str(response).strip()
-
-            system_prompt = """
-                You are an AI assistant specialized in generating affordable gift ideas based on given categories.
-                Your task is to suggest 2 specific gift items for each category, ensuring they are under the specified price ceiling.
-                Provide your suggestions as a Python list of strings.
-            """
-
-            ctx.data["gift_idea_generator_agent"] = self.create_agent(ctx, [generate_affordable_gift_ideas], system_prompt)
-
-        gift_ideas_str = ctx.data["gift_idea_generator_agent"].chat(f"Generate gift ideas for these categories: {ev.gift_categories}")
-
-        self.log_print(f"Raw Gift Ideas Output: {gift_ideas_str}")
-        
         try:
-            gift_ideas_list = ast.literal_eval(str(gift_ideas_str))
-            if not isinstance(gift_ideas_list, list):
-                raise ValueError("Result is not a list")
-        except (SyntaxError, ValueError) as e:
-            self.log_print(f"Error parsing gift ideas: {e}")
-            self.log_print(f"Raw output: {gift_ideas_str}")
-            # Extract gift ideas from the raw output
-            gift_ideas_list = [item.strip() for item in re.findall(r"'([^']*)'", str(gift_ideas_str))]
+            if "gift_idea_generator_agent" not in ctx.data:
+                def generate_specific_gift_ideas(gift_categories: str, interests: str, tweets: List[str]) -> str:
+                    prompt = f"""Based on the following user-specific information:
+
+                    Interests: {interests}
+                    Tweets: {tweets}
+                    Gift Categories: {gift_categories}
+
+                    Generate unique and specific gift ideas under ${self.price_ceiling}. 
+                    Focus on items that are:
+                    1. Directly related to the user's interests and gift categories
+                    2. Unique and not commonly found in regular stores
+                    3. Specific to the person's interests, avoiding generic items
+                    4. Preferably from local artisans, small businesses, or specialty shops
+                    5. Include a mix of physical items and experiences
+                    6. Aim for a total of 10 gift ideas across all categories
+
+                    Present your suggestions as a Python dictionary where keys are categories and values are lists of gift ideas.
+                    Each gift idea should be a string in the format "Category: Gift Idea".
+                    Ensure that each gift idea is tailored to the user's specific interests and not generic.
+                    Do not use any default suggestions.
+
+                    Gift Ideas:"""
+                    response = ctx.data["llm"].complete(prompt)
+                    return str(response).strip()
+
+                system_prompt = """
+                    You are an AI assistant specialized in generating unique and thoughtful gift ideas based on specific user information.
+                    Your task is to suggest gift items that are tailored to the user's interests, tweets, and identified gift categories.
+                    Focus on items that are unique, personal, and directly related to the user's preferences.
+                    Avoid any generic or default suggestions.
+                    Provide your suggestions as a Python dictionary where keys are categories and values are lists of gift ideas.
+                """
+
+                ctx.data["gift_idea_generator_agent"] = self.create_agent(ctx, [generate_specific_gift_ideas], system_prompt)
+
+            # Retrieve user-specific information from previous steps
+            interests = ctx.data.get("interests", "")
+            tweets = ctx.data.get("tweets", [])
+
+            gift_ideas_str = ctx.data["gift_idea_generator_agent"].chat(
+                f"Generate gift ideas for these categories: {ev.gift_categories}, "
+                f"with these interests: {interests}, and these tweets: {tweets}"
+            )
+
+            self.log_print(f"Raw Gift Ideas Output: {gift_ideas_str}")
+            
+            gift_ideas_list = []
+            try:
+                # Try to parse as a Python dictionary
+                gift_ideas_dict = ast.literal_eval(str(gift_ideas_str))
+                if isinstance(gift_ideas_dict, dict):
+                    for category, items in gift_ideas_dict.items():
+                        for item in items:
+                            gift_ideas_list.append(f"{category}: {item}")
+            except (SyntaxError, ValueError):
+                # If parsing fails, extract ideas manually
+                self.log_print("Parsing as dictionary failed. Extracting ideas manually.")
+                lines = str(gift_ideas_str).split('\n')
+                current_category = ""
+                for line in lines:
+                    if line.strip().endswith(':'):
+                        current_category = line.strip()[:-1]
+                    elif line.strip().startswith('-'):
+                        item = line.strip()[1:].strip()
+                        gift_ideas_list.append(f"{current_category}: {item}")
+
+            # If we still don't have any gift ideas, use fallback options
             if not gift_ideas_list:
-                gift_ideas_list = ["Wireless earbuds", "Bestselling novel"]
+                self.log_print("No gift ideas extracted. Using fallback options.")
+                fallback_ideas = [
+                    "Technology: Portable smartphone projector",
+                    "Self-Care: Organic facial serum",
+                    "Entertainment: Independent cinema movie tickets",
+                    "Music: Vintage vinyl record",
+                    "Photography: Mini tabletop tripod for smartphones"
+                ]
+                gift_ideas_list.extend(fallback_ideas)
 
-        # Limit the list to 5 items
-        gift_ideas_list = gift_ideas_list[:5]
-
-        self.log_print(f"Processed Gift Ideas: {str(gift_ideas_list)}")
-        return MediationEvent(gift_ideas=gift_ideas_list)
+            self.log_print(f"Processed Gift Ideas: {str(gift_ideas_list)}")
+            return MediationEvent(gift_ideas=gift_ideas_list)
+        except Exception as e:
+            self.log_print(f"Error in gift_idea_generator: {str(e)}")
+            fallback_ideas = [
+                "Technology: High-quality charger cable",
+                "Food: perishable boutique pantry items",
+                "Self-Care: Aromatherapy diffuser",
+                "Entertainment: Streaming service gift card",
+                "Fitness: Compact resistance bands set"
+            ]
+            return MediationEvent(gift_ideas=fallback_ideas)
 
     def initialize_debate_agents(self, ctx: Context):
         if "gift_con_agent" not in ctx.data:
@@ -260,7 +303,7 @@ class GiftSuggestionWorkflow(Workflow):
 
             pro_system_prompt = """
                 You are an AI assistant that argues in favor of gift ideas. Your role is to:
-                1. Present strong arguments supporting the given gift idea.
+                1. Present strong arguments supporting the given gift idea based on the user's interests.
                 2. Address and counter the previous argument against the gift.
                 3. Focus on the positive aspects and potential benefits of the gift.
                 4. Keep your argument concise and persuasive, within 300 characters.
@@ -271,6 +314,12 @@ class GiftSuggestionWorkflow(Workflow):
     @step(pass_context=True)
     async def mediation_agent(self, ctx: Context, ev: MediationEvent) -> GiftDebaterEvent:
         self.log_print("Step: Mediation Agent")
+        if not ev.gift_ideas:
+            self.log_print("No gift ideas to debate. Providing fallback ideas.")
+            fallback_ideas = ["high-quality charger cable", "perishable boutique pantry items", "Gourmet Chocolate", "Portable Charger", "Cozy Socks"]
+            debates = {gift: {"pro": "Versatile gift", "con": "May not match specific interests"} for gift in fallback_ideas}
+            return GiftDebaterEvent(gift_ideas=fallback_ideas, debates=debates)
+        
         
         try:
             self.initialize_debate_agents(ctx)
@@ -342,45 +391,66 @@ class GiftSuggestionWorkflow(Workflow):
         return GiftReasonerEvent(debates=extended_debates)
 
     @step(pass_context=True)
-    async def gift_reasoner(self, ctx: Context, ev: GiftReasonerEvent) -> MediationEvent:
+    async def gift_reasoner(self, ctx: Context, ev: GiftDebaterEvent) -> GiftReasonerEvent:
         self.log_print("Step: Gift Reasoner")
         if "gift_reasoner_agent" not in ctx.data:
-            def reason_over_debates(debates: Dict[str, List[str]]) -> List[str]:
-                prompt = f"""Based on the following debates, reason over the arguments and select the 3 best specific gift items. 
-                Provide a final take on why these 3 were chosen. Pay special attention to the pro arguments, as they were the last to argue in each debate:
+            def reason_over_debates(debates: str) -> str:
+                prompt = f"""Given the following debates about gift ideas, provide a final reasoned selection of the top 5 gift ideas. 
+                Consider factors such as uniqueness, practicality, and how well they match the recipient's interests. 
+                Present your selection as a Python list of strings, where each string is in the format "Gift Idea: Reasoning".
 
                 Debates:
                 {debates}
 
-                Selected Gifts:
-                1. [SPECIFIC_GIFT_ITEM_1]
-                Rationale: [CONCISE_EXPLANATION_1]
-
-                2. [SPECIFIC_GIFT_ITEM_2]
-                Rationale: [CONCISE_EXPLANATION_2]
-
-                3. [SPECIFIC_GIFT_ITEM_3]
-                Rationale: [CONCISE_EXPLANATION_3]
-                """
-                
-                response = ctx.data["llm"].complete(prompt)
-                return str(response).strip().split('\n')
+                Final Selection:"""
+                return ctx.data["llm"].complete(prompt)
 
             system_prompt = """
-                You are an AI assistant that reasons over gift idea debates and selects specific gift items.
-                Your task is to analyze the debates, select the 3 best specific gift items (not general categories),
-                and provide concise rationales for your choices. Ensure your selections are diverse and cater to 
-                different aspects of the recipient's interests or needs. Pay special attention to the pro arguments,
-                as they were the last to argue in each debate.
+                You are an AI assistant specialized in analyzing debates about gift ideas and making final selections.
+                Your task is to consider various factors and provide a reasoned selection of the top 5 gift ideas.
+                Present your selection as a Python list of strings, where each string includes both the gift idea and the reasoning behind it.
             """
 
             ctx.data["gift_reasoner_agent"] = self.create_agent(ctx, [reason_over_debates], system_prompt)
 
-        final_gifts = ctx.data["gift_reasoner_agent"].chat(f"Reason over these debates: {ev.debates}")
+        max_retries = 3
+        retry_delay = 5  # seconds
+
+        for attempt in range(max_retries):
+            try:
+                final_gifts = ctx.data["gift_reasoner_agent"].chat(f"Reason over these debates: {ev.debates}")
+                self.log_print(f"Final Gift Selection: {final_gifts}")
+                
+                # Extract the response from AgentChatResponse
+                final_gifts_list = ast.literal_eval(final_gifts.response)
+                
+                # Create a dictionary with gift ideas as keys and reasons as values
+                reasoned_gifts = {gift.split(":")[0].strip(): [gift.split(":", 1)[1].strip()] for gift in final_gifts_list}
+                
+                return GiftReasonerEvent(gift_ideas=reasoned_gifts)
+            except Exception as e:
+                self.log_print(f"Error in gift_reasoner (attempt {attempt + 1}/{max_retries}): {str(e)}")
+                if attempt < max_retries - 1:
+                    self.log_print(f"Retrying in {retry_delay} seconds...")
+                    await asyncio.sleep(retry_delay)
+                else:
+                    self.log_print("Max retries reached. Using fallback method.")
+                    fallback_gifts = self.fallback_gift_selection(ev.debates)
+                    return GiftReasonerEvent(gift_ideas=fallback_gifts)
+
+    def fallback_gift_selection(self, debates: Dict[str, Dict[str, str]]) -> Dict[str, List[str]]:
+        # Simple fallback method to extract gift ideas from debates
+        fallback_gifts = {}
+        for gift, debate in debates.items():
+            pro_argument = debate.get('pro', 'No pro argument available')
+            fallback_gifts[gift] = [f"Selected as a fallback option. Pro argument: {pro_argument[:100]}..."]
         
-        gift_list = [line for line in str(final_gifts).strip().split('\n') if line.strip()]
-        self.log_print(f"Final Gift Selections: {str(gift_list)}")
-        return MediationEvent(gift_ideas=gift_list)
+        # If we have more than 5 gifts, randomly select 5
+        if len(fallback_gifts) > 5:
+            selected_gifts = random.sample(list(fallback_gifts.keys()), 5)
+            fallback_gifts = {gift: fallback_gifts[gift] for gift in selected_gifts}
+        
+        return fallback_gifts
     
     @step(pass_context=True)
     async def amazon_keyword_generator(self, ctx: Context, ev: GiftReasonerEvent) -> AmazonKeywordGeneratorEvent:
@@ -404,8 +474,11 @@ class GiftSuggestionWorkflow(Workflow):
 
             ctx.data["amazon_keyword_generator_agent"] = self.create_agent(ctx, [generate_keywords], system_prompt)
 
+        # Convert the gift_ideas dictionary to a list of strings
+        gift_ideas_list = [f"{gift}: {reasons[0]}" for gift, reasons in ev.gift_ideas.items()]
+
         amazon_keywords = ctx.data["amazon_keyword_generator_agent"].chat(
-            f"Generate keywords for these gift ideas: {ev.gift_ideas}"
+            f"Generate keywords for these gift ideas: {gift_ideas_list}"
         )
                 
         # Extract the content from the AgentChatResponse
@@ -414,7 +487,7 @@ class GiftSuggestionWorkflow(Workflow):
         # Parse the keywords from the response text
         keywords_list = []
         for line in response_text.split('\n'):
-            if line.strip().startswith(('- ', '• ', '* ', '1. ', '2. ', '3. ', '4. ', '5. ', '6. ')):
+            if line.strip().startswith(('- ', '• ', '* ', '1. ', '2. ', '3. ', '4. ', '5. ', '6. ', ',','.')):
                 keywords_list.append(line.strip().split(' ', 1)[1])
         
         # Ensure we have at least one keyword
@@ -422,63 +495,109 @@ class GiftSuggestionWorkflow(Workflow):
             self.log_print("Failed to generate valid keywords. Using fallback keyword.")
             keywords_list = [f"Gift under ${self.price_ceiling}"]  # Fallback keyword
 
-        return AmazonKeywordGeneratorEvent(gift_ideas=ev.gift_ideas, amazon_keywords=keywords_list)
+        return AmazonKeywordGeneratorEvent(gift_ideas=gift_ideas_list, amazon_keywords=keywords_list)
+    
+    @staticmethod
+    def extract_amazon_product_links(keyword: str):
+        from apify_client import ApifyClient
+        import os
+        from dotenv import load_dotenv
+        import urllib.parse
+
+        # Initialize the ApifyClient with your API token
+        load_dotenv()
+
+        api_token = os.getenv("APIFY_API_TOKEN")
+        client = ApifyClient(api_token)
+
+        keyword = urllib.parse.quote(keyword, safe="")
+        # Prepare the Actor input
+        run_input = {
+            "categoryOrProductUrls": [{"url": f"https://www.amazon.com/s?k={keyword}"}],
+            "maxItemsPerStartUrl": 1,
+            "proxyCountry": "AUTO_SELECT_PROXY_COUNTRY",
+            "maxOffers": 0,
+            "scrapeSellers": False,
+            "useCaptchaSolver": False,
+            "scrapeProductVariantPrices": False,
+        }
+
+        print(f"Running Actor with input: {run_input}")
+
+        try:
+            # Run the Actor and wait for it to finish
+            run = client.actor("BG3WDrGdteHgZgbPK").call(run_input=run_input)
+
+            # Fetch Actor results from the run's dataset
+            data = client.dataset(run["defaultDatasetId"]).list_items().items
+            for item in data:
+                print(f'Item: {item}')
+
+            return data
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            traceback.print_exc()
+            return []
 
     @step(pass_context=True)
     async def amazon_product_link_generator(self, ctx: Context, ev: AmazonProductLinkEvent) -> ProductLinkEvent:
         self.log_print(f"Generating product link for keyword: {ev.keyword}")
         
-        if "amazon_product_link_generator_agent" not in ctx.data:
-            def generate_product_link(keyword: str) -> str:
-                prompt = f"""Generate a simulated Amazon product based on the following search keyword: {keyword}
-                Provide the following details:
-                - Product title (max 50 characters)
-                - Price (as a float, under {self.price_ceiling})
-                - Rating (as a float between 1 and 5)
-                - Image URL (use 'https://example.com/sample-image.jpg')
-                - Product URL (use 'https://www.amazon.com/s?k={keyword.replace(' ', '+')}')
-
-                Format your response as follows:
-                Title: [Product Title]
-                Price: [Price]
-                Rating: [Rating]
-                Image: [Image URL]
-                URL: [Product URL]
-                """
-                response = ctx.data["llm"].complete(prompt)
-                return str(response).strip()
-
-            system_prompt = """
-                You are an AI assistant that generates simulated Amazon product listings based on search keywords.
-                Your task is to provide realistic product details including title, price, rating, and URLs.
-            """
-
-            ctx.data["amazon_product_link_generator_agent"] = self.create_agent(ctx, [generate_product_link], system_prompt)
-
-        product_data = ctx.data["amazon_product_link_generator_agent"].chat(f"Generate a product link for: {ev.keyword}")
+        product_link = []
+        link = self.extract_amazon_product_links(ev.keyword)
+        product_link.extend(link)
         
-        # Parse the response
-        response_text = product_data.response.strip()
-        product_dict = {}
-        for line in response_text.split('\n'):
-            if ':' in line:
-                key, value = line.split(':', 1)
-                product_dict[key.strip().lower()] = value.strip()
+        self.log_print("\n--- Amazon Product Links ---")
+        self.log_print(product_link)
+        self.log_print("----------------------------\n")
+        
+        try:
+            if not product_link:
+                raise ValueError("No product data returned")
+            
+            product_link = product_link[0]
+            
+            # Safely extract values with default fallbacks
+            title = product_link.get('title', 'No title available')
+            price = product_link.get('price', {})
+            if isinstance(price, dict):
+                price_value = price.get('value')
+                if price_value is not None:
+                    try:
+                        price_value = float(price_value)
+                    except ValueError:
+                        price_value = None
+            else:
+                price_value = None
+            
+            rating = product_link.get('stars')
+            if rating is not None:
+                try:
+                    rating = float(rating)
+                except ValueError:
+                    rating = None
+            
+            image = product_link.get('thumbnailImage') or product_link.get('thumbnail', '')
+            url = product_link.get('url', '')
+            self.log_print(f"Creating ProductLinkEvent with: title={title}, price={price_value}, rating={rating}, image={image}, url={url}")
 
-        # Extract values and provide defaults if not found
-        title = product_dict.get('title', 'No title available')
-        price = float(re.search(r'\d+(\.\d+)?', product_dict.get('price', '0')).group()) if 'price' in product_dict else 0.0
-        rating = float(re.search(r'\d+(\.\d+)?', product_dict.get('rating', '0')).group()) if 'rating' in product_dict else 0.0
-        image = product_dict.get('image', 'https://example.com/sample-image.jpg')
-        url = product_dict.get('url', f'https://www.amazon.com/s?k={ev.keyword.replace(" ", "+")}')
-
-        return ProductLinkEvent(
-            product_title=title,
-            product_price=price,
-            product_rating=rating,
-            product_image=image,
-            product_links=url
-        )
+            return ProductLinkEvent(
+                product_title=title,
+                product_price=price_value,
+                product_rating=rating,
+                product_image=image,
+                product_links=url
+            )
+        except Exception as e:
+            self.log_print(f"An error occurred while processing product link: {str(e)}")
+            traceback.print_exc()
+            return ProductLinkEvent(
+                product_title="No product found",
+                product_price=None,
+                product_rating=None,
+                product_image="",
+                product_links=""
+            )
 
 # Remove the draw_all_possible_flows call from here
 def create_agent(ctx: Context, tools: List[callable], system_prompt: str):

@@ -11,6 +11,8 @@ import traceback
 from searchx import search_tweets
 import os
 from datetime import datetime
+import random
+from collections import defaultdict
 import sys
 
 st.set_page_config(page_title="Gift Genie", page_icon="🎁", layout="wide")
@@ -30,7 +32,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("🎁 Gift Genie MVP 🎁")
+st.title("🎁 Gift Genie 🎁")
 
 # Initialize log_output in session state if it doesn't exist
 if 'log_output' not in st.session_state:
@@ -71,7 +73,7 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, progress_
 
     progress_bar.progress(0)
     
-    with st.expander("Step 1: Analyzing Tweets and Text", expanded=True):
+    with st.expander("Step 1: Analyzing Tweets and Text 🧐", expanded=True):
         init_event = await workflow.initialize(ctx, StartEvent())
         st.subheader("Tweets Extracted and Additional Information")
         for tweet in init_event.tweets:
@@ -86,36 +88,42 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, progress_
         gift_categories_event = await workflow.interest_mapper(ctx, interest_event)
         st.subheader("Gift Categories")
         st.text(gift_categories_event.gift_categories)
-        categories = gift_categories_event.gift_categories.split(", ")
-        for i, category in enumerate(categories, 1):
-            st.markdown(f"{i}. {category}")
+        # categories = gift_categories_event.gift_categories.split(", ")
+        # for i, category in enumerate(categories, 1):
+        #     st.markdown(f"{i}. {category}")
     progress_bar.progress(40)
 
-    with st.expander("Step 3: Generating Gift Ideas", expanded=True):
+    with st.expander("Step 3: 💡 Generating Gift Ideas", expanded=True):
         gift_ideas_event = await workflow.gift_idea_generator(ctx, gift_categories_event)
-        st.subheader("Gift Ideas")
-        st.text("Raw Gift Ideas Output:")
-        st.text(gift_ideas_event.gift_ideas)
+        st.subheader("Gift Ideas by Category")
         
-        if isinstance(gift_ideas_event.gift_ideas, list):
-            for idea in gift_ideas_event.gift_ideas:
+        # Group ideas by category
+        categorized_ideas = defaultdict(list)
+        for idea in gift_ideas_event.gift_ideas:
+            category, item = idea.split(": ", 1)
+            categorized_ideas[category].append(item)
+        
+        # Display ideas by category
+        for category, ideas in categorized_ideas.items():
+            st.write(f"**{category}**")
+            for idea in ideas:
                 st.markdown(f"- {idea}")
-        elif isinstance(gift_ideas_event.gift_ideas, str):
-            # Try to parse the string as a list
-            try:
-                ideas_list = eval(gift_ideas_event.gift_ideas)
-                if isinstance(ideas_list, list):
-                    for idea in ideas_list:
-                        st.markdown(f"- {idea}")
-                else:
-                    st.warning("Unable to parse gift ideas as a list.")
-            except:
-                st.warning("Unable to parse gift ideas.")
-        else:
-            st.warning("Unexpected format for gift ideas.")
+        
+        # Score and select top 5 gift ideas based on relevance to user's interests
+        def score_idea(idea, interests):
+            return sum(interest.lower() in idea.lower() for interest in interests.split(','))
+
+        interests = interest_event.interests
+        scored_ideas = [(idea, score_idea(idea, interests)) for idea in gift_ideas_event.gift_ideas]
+        top_ideas = sorted(scored_ideas, key=lambda x: x[1], reverse=True)[:5]
+        
+        st.subheader("Top 5 Gift Ideas Based on User Interests")
+        for idea, score in top_ideas:
+            st.markdown(f"- {idea} (Relevance Score: {score})")
+
     progress_bar.progress(60)
 
-    with st.expander("Step 4: Debating Gift Ideas", expanded=True):
+    with st.expander("Step 4: 🥊 Debating Gift Ideas 🥊", expanded=True):
         gift_debates_event = await workflow.mediation_agent(ctx, gift_ideas_event)
         st.subheader("Gift Debates")
         for gift, debate in gift_debates_event.debates.items():
@@ -130,26 +138,24 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, progress_
             st.markdown("---")
     progress_bar.progress(80)
 
-    with st.expander("Step 5: Reasoning Over Gift Debates", expanded=True):
+    with st.expander("Step 5: Reasoning Over Gift Debates 🤔", expanded=True):
         gift_reasoner_event = await workflow.gift_reasoner(ctx, gift_debates_event)
         st.subheader("Final Gift Selections")
-        for item in gift_reasoner_event.gift_ideas:
-            parts = item.split("Rationale:", 1)
-            if len(parts) == 2:
-                gift, rationale = parts
-                st.markdown(f"**{gift.strip()}**")
-                st.markdown(f"*Rationale:* {rationale.strip()}")
-                st.markdown("---")
+        for gift, reasons in gift_reasoner_event.gift_ideas.items():
+            st.markdown(f"**{gift}**")
+            for reason in reasons:
+                st.markdown(f"*Rationale:* {reason}")
+            st.markdown("---")
     progress_bar.progress(90)
 
-    with st.expander("Step 6: Generating Amazon Search Keywords", expanded=True):
+    with st.expander("Step 6: Generating Amazon Search Keywords ✍️", expanded=True):
         amazon_keyword_event = await workflow.amazon_keyword_generator(ctx, gift_reasoner_event)
         st.subheader("Amazon Search Keywords")
         for keyword in amazon_keyword_event.amazon_keywords:
             st.markdown(f"- {keyword}")
     progress_bar.progress(95)
 
-    with st.expander("Step 7: Generating Amazon Product Links", expanded=True):
+    with st.expander("Step 7: Generating Amazon Product Links 📀", expanded=True):
         st.subheader("Amazon Product Links")
         product_links = []
         for keyword in amazon_keyword_event.amazon_keywords:
@@ -188,10 +194,10 @@ async def run_workflow(price_ceiling, twitter_handle, additional_text, progress_
 
 def main():
     price_ceiling = st.sidebar.number_input(
-        "Set Price Ceiling ($)", min_value=1, max_value=1000, value=30
+        "Set Price Ceiling ($) 💰", min_value=1, max_value=1000, value=30
     )
     twitter_handle = st.sidebar.text_input(
-        "Twitter Handle (optional) 🐦", help="Enter with or without '@'"
+        "Twitter Handle (optional) 🦜", help="Enter with or without '@'"
     )
     additional_text = st.sidebar.text_area(
         "Additional Information (optional) 📝",
@@ -220,7 +226,7 @@ def main():
 
     # Display logs
     if st.session_state.log_output:
-        with st.expander("Workflow Logs", expanded=False):
+        with st.expander("✨ 📝 Our Notes 📝  ✨", expanded=False):
             for log in st.session_state.log_output:
                 st.text(log)
 
