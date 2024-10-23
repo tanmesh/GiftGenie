@@ -11,7 +11,8 @@ from llama_index.core.workflow import (
     Context,
     Workflow,
     Event,
-    StartEvent
+    StartEvent,
+    StopEvent 
 )
 from llama_index.core.agent import FunctionCallingAgentWorker
 from llama_index.core.tools import FunctionTool
@@ -47,15 +48,11 @@ class GiftDebaterEvent(Event):
 class GiftReasonerEvent(Event):
     gift_ideas: Dict[str, List[str]]
 
-class AmazonKeywordGeneratorEvent(Event):
-    gift_ideas: List[str]
-    amazon_keywords: List[str] = []
-
 class AmazonKeywordEvent(Event):
     amazon_keywords: List[str]
 
 class AmazonProductLinkEvent(Event):
-    keyword: str
+    keywords: List[str]
 
 class ProductLinkEvent(Event):
     product_title: str
@@ -453,7 +450,7 @@ class GiftSuggestionWorkflow(Workflow):
         return fallback_gifts
     
     @step(pass_context=True)
-    async def amazon_keyword_generator(self, ctx: Context, ev: GiftReasonerEvent) -> AmazonKeywordGeneratorEvent:
+    async def amazon_keyword_generator(self, ctx: Context, ev: GiftReasonerEvent) -> AmazonKeywordEvent:
         if "amazon_keyword_generator_agent" not in ctx.data:
             def generate_keywords(gift_ideas: List[str]) -> List[str]:
                 prompt = f"""Based on the following gift ideas, generate Amazon search keywords. 
@@ -480,125 +477,42 @@ class GiftSuggestionWorkflow(Workflow):
         amazon_keywords = ctx.data["amazon_keyword_generator_agent"].chat(
             f"Generate keywords for these gift ideas: {gift_ideas_list}"
         )
-                
-        # Extract the content from the AgentChatResponse
+        
+        # Extract keywords from response
+        keywords_list = []
         response_text = amazon_keywords.response.strip()
         
-        # Parse the keywords from the response text
-        keywords_list = []
         for line in response_text.split('\n'):
             if line.strip().startswith(('- ', '• ', '* ', '1. ', '2. ', '3. ', '4. ', '5. ', '6. ', ',','.')):
                 keywords_list.append(line.strip().split(' ', 1)[1])
         
-        # Ensure we have at least one keyword
         if not keywords_list:
             self.log_print("Failed to generate valid keywords. Using fallback keyword.")
-            keywords_list = [f"Gift under ${self.price_ceiling}"]  # Fallback keyword
+            keywords_list = [f"Gift under ${self.price_ceiling}"]
 
-        return AmazonKeywordGeneratorEvent(gift_ideas=gift_ideas_list, amazon_keywords=keywords_list)
-    
-    @staticmethod
-    def extract_amazon_product_links(keyword: str):
-        from apify_client import ApifyClient
-        import os
-        from dotenv import load_dotenv
-        import urllib.parse
-
-        # Initialize the ApifyClient with your API token
-        load_dotenv()
-
-        api_token = os.getenv("APIFY_API_TOKEN")
-        client = ApifyClient(api_token)
-
-        keyword = urllib.parse.quote(keyword, safe="")
-        # Prepare the Actor input
-        run_input = {
-            "categoryOrProductUrls": [{"url": f"https://www.amazon.com/s?k={keyword}"}],
-            "maxItemsPerStartUrl": 1,
-            "proxyCountry": "AUTO_SELECT_PROXY_COUNTRY",
-            "maxOffers": 0,
-            "scrapeSellers": False,
-            "useCaptchaSolver": False,
-            "scrapeProductVariantPrices": False,
-        }
-
-        print(f"Running Actor with input: {run_input}")
-
-        try:
-            # Run the Actor and wait for it to finish
-            run = client.actor("BG3WDrGdteHgZgbPK").call(run_input=run_input)
-
-            # Fetch Actor results from the run's dataset
-            data = client.dataset(run["defaultDatasetId"]).list_items().items
-            for item in data:
-                print(f'Item: {item}')
-
-            return data
-        except Exception as e:
-            print(f"An error occurred: {str(e)}")
-            traceback.print_exc()
-            return []
+        return AmazonKeywordEvent(amazon_keywords=keywords_list)
 
     @step(pass_context=True)
-    async def amazon_product_link_generator(self, ctx: Context, ev: AmazonProductLinkEvent) -> ProductLinkEvent:
-        self.log_print(f"Generating product link for keyword: {ev.keyword}")
+    async def product_link_generator(self, ctx: Context, ev: AmazonKeywordEvent) -> AmazonProductLinkEvent:
+        self.log_print("Starting product link generation")
+        all_product_links = []
         
-        product_link = []
-        link = self.extract_amazon_product_links(ev.keyword)
-        product_link.extend(link)
+        for keyword in ev.amazon_keywords:
+            try:
+                links = self.extract_amazon_product_links(keyword)
+                all_product_links.extend(links)
+            except Exception as e:
+                self.log_print(f"Error generating links for keyword {keyword}: {str(e)}")
         
-        self.log_print("\n--- Amazon Product Links ---")
-        self.log_print(product_link)
-        self.log_print("----------------------------\n")
-        
-        try:
-            if not product_link:
-                raise ValueError("No product data returned")
-            
-            product_link = product_link[0]
-            
-            # Safely extract values with default fallbacks
-            title = product_link.get('title', 'No title available')
-            price = product_link.get('price', {})
-            if isinstance(price, dict):
-                price_value = price.get('value')
-                if price_value is not None:
-                    try:
-                        price_value = float(price_value)
-                    except ValueError:
-                        price_value = None
-            else:
-                price_value = None
-            
-            rating = product_link.get('stars')
-            if rating is not None:
-                try:
-                    rating = float(rating)
-                except ValueError:
-                    rating = None
-            
-            image = product_link.get('thumbnailImage') or product_link.get('thumbnail', '')
-            url = product_link.get('url', '')
-            self.log_print(f"Creating ProductLinkEvent with: title={title}, price={price_value}, rating={rating}, image={image}, url={url}")
+        return AmazonProductLinkEvent(keywords=ev.amazon_keywords)
 
-            return ProductLinkEvent(
-                product_title=title,
-                product_price=price_value,
-                product_rating=rating,
-                product_image=image,
-                product_links=url
-            )
-        except Exception as e:
-            self.log_print(f"An error occurred while processing product link: {str(e)}")
-            traceback.print_exc()
-            return ProductLinkEvent(
-                product_title="No product found",
-                product_price=None,
-                product_rating=None,
-                product_image="",
-                product_links=""
-            )
-
+    @step(pass_context=True)
+    async def finalize(self, ctx: Context, ev: AmazonProductLinkEvent) -> StopEvent:
+        self.log_print("Finalizing workflow")
+        return StopEvent(result={
+            "keywords": ev.keywords,
+            "status": "completed"
+        })
 # Remove the draw_all_possible_flows call from here
 def create_agent(ctx: Context, tools: List[callable], system_prompt: str):
     function_tools = [FunctionTool.from_defaults(fn=tool) for tool in tools]

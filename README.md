@@ -9,7 +9,9 @@
 GiftGenie is your AI-powered personal shopper that takes the stress out of gift-giving, providing thoughtful, personalized recommendations for any occasion.
 
 ## Tools Used
-LlamaIndex workflows (Agent workflow), Toolhouse (Twitter Scraping), Apify (Amazon scraping)
+- LlamaIndex workflows (Agent workflow)
+- Toolhouse (Twitter Scraping)
+- Apify (Amazon scraping)
 
 ## Inspiration
 GiftGenie was inspired by the common challenge of finding the perfect gift for friends and loved ones. We wanted to create a tool that could analyze a person's interests and preferences, then suggest thoughtful and personalized gift ideas within a specified budget.
@@ -25,6 +27,12 @@ GiftGenie is an AI-powered gift suggestion app that:
 6. Suggests Amazon search keywords for easy shopping.
 7. Provides Amazon product links for the suggested gifts.
 
+## Running the Application
+This is a Streamlit application. To run it, navigate to the project directory and use the command:
+```
+streamlit run main.py
+```
+
 ## How we built it
 We built GiftGenie using:
 
@@ -35,6 +43,12 @@ We built GiftGenie using:
 - Apify for scraping Amazon product data.
 - Asynchronous programming for improved performance.
 - Toolhouse for X (Twitter) data retrieval.
+
+## Key Files
+### gift_suggestion_workflow.py
+The gift_suggestion_workflow.py file is the core engine of GiftGenie, implementing a sophisticated workflow system using LlamaIndex. It defines a series of interconnected steps that process user input and generate gift suggestions. The file contains various event classes and the main GiftSuggestionWorkflow class, which orchestrates the entire gift suggestion process. Each step in the workflow - from analyzing tweets to generating Amazon keywords - is implemented as a separate method with its own agent, allowing for modular and maintainable code. The file also includes robust error handling and fallback mechanisms to ensure the application continues to function even when certain steps encounter issues.
+### main.py
+The main.py file serves as the user interface layer of GiftGenie, built using Streamlit. It creates an intuitive and interactive web interface that guides users through the gift suggestion process. The file handles user inputs (price ceiling, Twitter handle, and additional text), manages the workflow execution, and displays the results in an organized, step-by-step format using expandable sections. It includes progress tracking, error handling, and logging functionality to keep users informed throughout the process. The interface is designed to be user-friendly while still providing detailed information about each step of the gift suggestion process.
 
 ## Challenges we ran into
 1. Integrating multiple AI agents to work together seamlessly.
