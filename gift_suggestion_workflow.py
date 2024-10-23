@@ -149,7 +149,7 @@ class GiftSuggestionWorkflow(Workflow):
                 prompt = f"""For each of the following interest categories, suggest potential gift categories.
                 If the interests are unclear, use these default gift categories: 
                 'specialty dark chocolate','premium coffee','charcuterie board items','perishable boutique pantry items'.
-                Provide a comma-separated list of at least 10 gift categories:
+                Provide a comma-separated list of at least 5 gift categories:
 
                 Interest categories:
                 {interests}
@@ -160,7 +160,7 @@ class GiftSuggestionWorkflow(Workflow):
 
             system_prompt = """
                 You are an AI assistant specializing in mapping interest categories to potential gift categories. 
-                Your task is to generate a diverse and relevant list of at least 10 gift categories based on given interests.
+                Your task is to generate a diverse and relevant list of at least 5 gift categories based on given interests.
                 If the interests are unclear or insufficient, use these default gift categories: 
                 Charcuterie, fruit preserves, fancy olive oil, specialty nut butters.
                 Ensure each gift category is specific enough to be useful for gift searching, but broad enough to encompass multiple gift options.
@@ -191,7 +191,7 @@ class GiftSuggestionWorkflow(Workflow):
                     3. Specific to the person's interests, avoiding generic items
                     4. Preferably from local artisans, small businesses, or specialty shops
                     5. Include a mix of physical items and experiences
-                    6. Aim for a total of 10 gift ideas across all categories
+                    6. Aim for a total of 5 gift ideas across all categories
 
                     Present your suggestions as a Python dictionary where keys are categories and values are lists of gift ideas.
                     Each gift idea should be a string in the format "Category: Gift Idea".
