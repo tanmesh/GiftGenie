@@ -17,9 +17,8 @@ function Title({ name }) {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex flex-col justify-center items-center p-4 mx-5">
+      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 bg-cover bg-center">
         <Title name="GiftGenie" />
-        {/* <GiftInput /> */}
         <Status />
       </div>
     </QueryClientProvider>
